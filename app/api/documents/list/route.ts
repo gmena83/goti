@@ -1,10 +1,5 @@
-import { createClient } from '@supabase/supabase-js';
+import { supabase } from '../../../../lib/supabase';
 import { NextRequest, NextResponse } from 'next/server';
-
-const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
 
 export async function GET(req: NextRequest) {
     try {
@@ -25,10 +20,12 @@ export async function GET(req: NextRequest) {
         const sortBy = searchParams.get('sort') || 'created_at';
         const order = searchParams.get('order') || 'desc';
 
-        // Build query
+        // Build query - get documents with chunk count
+        // Note: Supabase doesn't support COUNT aggregation in select directly,
+        // so we'll fetch documents and get chunk counts separately for accuracy
         let query = supabase
             .from('documents')
-            .select('*, document_chunks(count)', { count: 'exact' });
+            .select('*', { count: 'exact' });
 
         // Apply search filter
         if (search) {
@@ -53,6 +50,21 @@ export async function GET(req: NextRequest) {
             return NextResponse.json({ error: error.message }, { status: 500 });
         }
 
+        // Get chunk counts for each document
+        const documentsWithChunks = await Promise.all(
+            (documents || []).map(async (doc) => {
+                const { count: chunkCount } = await supabase
+                    .from('document_chunks')
+                    .select('*', { count: 'exact', head: true })
+                    .eq('document_id', doc.id);
+
+                return {
+                    ...doc,
+                    chunk_count: chunkCount || 0
+                };
+            })
+        );
+
         // Get unique sources for filter dropdown
         const { data: sources } = await supabase
             .from('documents')
@@ -62,7 +74,7 @@ export async function GET(req: NextRequest) {
         const uniqueSources = [...new Set(sources?.map(s => s.source) || [])];
 
         return NextResponse.json({
-            documents: documents || [],
+            documents: documentsWithChunks,
             pagination: {
                 page,
                 limit,

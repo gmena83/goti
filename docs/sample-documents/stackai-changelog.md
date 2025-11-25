@@ -1,46 +1,66 @@
-# Stack AI Changelog
+# Stack AI Changelog - November 2025
 
-## Mid-November 2024 Product Update
+## November 2025 Product Update
 
-### New Features
-- **Template Library**: Pre-built AI workflow templates
-- **Knowledge Base Evals**: Evaluate and improve your knowledge bases
-- **GPT-5 & OSS Models**: Support for latest AI models
-- **End-user Connections**: Better user management
+### AI Model Updates
+- **GPT-4 Turbo**: Latest OpenAI model integration
+- **Claude 4**: Anthropic's newest model
+- **Gemini Pro 2.0**: Google's enhanced AI
+- **Custom Models**: Support for fine-tuned models
+
+### Knowledge Base Enhancements
+- **Vector Search 2.0**: Faster and more accurate search
+- **Multi-Modal**: Support for images, PDFs, and videos
+- **Auto-Indexing**: Automatic content indexing
+- **Semantic Chunking**: Smarter document splitting
+
+### Template Library Expansion
+- **500+ Templates**: Pre-built AI workflows
+- **Industry-Specific**: Templates for healthcare, finance, legal
+- **Customizable**: Easy template customization
+- **Community Templates**: Share and discover templates
+
+## October 2025 Update
+
+### Platform Improvements
+- **Workflow Builder**: Visual AI workflow creation
+- **API Management**: Better API key and usage management
+- **Analytics Dashboard**: Track AI usage and performance
+- **Cost Optimization**: Tools to reduce AI costs
 
 ### Integrations
-- **Outlook & Teams**: Microsoft integration
-- **Analysis Tool**: Generate charts as images
-- **New Models**: Added support for latest LLMs
+- **Supabase**: Direct database integration
+- **Zapier**: Workflow automation
+- **Slack**: Team collaboration
+- **Google Workspace**: Document processing
 
-## October 2024 Update
+## September 2025
 
-### Features
-- **Meta Llama 3.2**: Support for Meta's latest models
-- **Enhanced Builder**: Improved visual interface
-- **Variables in Toolkits**: Better customization options
+### Enterprise Features
+- **SSO**: Single sign-on support
+- **RBAC**: Role-based access control
+- **Audit Logs**: Comprehensive logging
+- **SLA**: 99.9% uptime guarantee
 
-### Documentation
-- **Index API Reference**: Programmatic data uploads
-- **Builder Guides**: Comprehensive tutorials
-- **Integration Docs**: Detailed integration guides
+### Developer Tools
+- **Python SDK**: Enhanced SDK
+- **REST API**: Full API access
+- **Webhooks**: Event notifications
+- **CLI**: Command-line tools
 
-## Key Capabilities
-
-### Builder View
-- **Canvas**: Visual workflow builder
-- **Sidebar**: Easy access to components
-- **Control Bar**: Workflow management
-
-### Export & Analytics
-- **Export View**: Share and deploy workflows
-- **Analytics View**: Monitor performance
-- **Custom LLMs**: Fine-tune models
+## Key Features
+- AI workflow automation
+- Knowledge base management
+- Multiple AI models
+- Template library
+- API integrations
+- Enterprise security
+- Analytics and monitoring
 
 ## Key Topics
-- Template library
-- Knowledge base
-- GPT models
-- Integrations
-- AI workflows
-- Analytics
+- AI automation
+- Knowledge management
+- Multi-model support
+- Enterprise features
+- Developer tools
+- Cost optimization

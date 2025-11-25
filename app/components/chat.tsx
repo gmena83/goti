@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Send, Bot, User } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
@@ -13,15 +13,41 @@ interface Message {
 export default function Chat() {
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState('');
-    const [status, setStatus] = useState<'ready' | 'streaming'>('ready');
+    const [status, setStatus] = useState<'ready' | 'streaming' | 'loading'>('loading');
     const abortControllerRef = useRef<AbortController | null>(null);
+    const messagesEndRef = useRef<HTMLDivElement>(null);
+
+    // Load chat history on mount
+    useEffect(() => {
+        async function loadHistory() {
+            try {
+                const response = await fetch('/api/chat/history');
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.messages && data.messages.length > 0) {
+                        setMessages(data.messages);
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading chat history:', error);
+            } finally {
+                setStatus('ready');
+            }
+        }
+        loadHistory();
+    }, []);
+
+    // Auto-scroll to bottom when messages change
+    useEffect(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, [messages]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!input.trim() || status === 'streaming') return;
+        if (!input.trim() || status === 'streaming' || status === 'loading') return;
 
         const userMessage: Message = {
-            id: Date.now().toString(),
+            id: crypto.randomUUID(),
             role: 'user',
             content: input,
         };
@@ -56,7 +82,7 @@ export default function Chat() {
             const reader = response.body.getReader();
             const decoder = new TextDecoder();
             let assistantMessage: Message = {
-                id: (Date.now() + 1).toString(),
+                id: crypto.randomUUID(),
                 role: 'assistant',
                 content: '',
             };
@@ -88,35 +114,43 @@ export default function Chat() {
     return (
         <div className="flex flex-col h-[80vh] w-full max-w-2xl mx-auto border rounded-xl overflow-hidden bg-background shadow-lg">
             <div className="flex-1 overflow-y-auto p-4 space-y-4">
-                {messages.length === 0 && (
+                {status === 'loading' ? (
+                    <div className="flex flex-col items-center justify-center h-full text-muted-foreground">
+                        <Bot className="w-12 h-12 mb-2 animate-pulse" />
+                        <p>Loading chat history...</p>
+                    </div>
+                ) : messages.length === 0 ? (
                     <div className="flex flex-col items-center justify-center h-full text-muted-foreground">
                         <Bot className="w-12 h-12 mb-2" />
                         <p>Hello! I'm GOTI. How can I help you today?</p>
                     </div>
-                )}
-                {messages.map((m) => (
-                    <div
-                        key={m.id}
-                        className={cn(
-                            "flex w-full",
-                            m.role === 'user' ? "justify-end" : "justify-start"
-                        )}
-                    >
-                        <div
-                            className={cn(
-                                "flex items-start max-w-[80%] rounded-lg p-3",
-                                m.role === 'user'
-                                    ? "bg-primary text-primary-foreground"
-                                    : "bg-muted text-foreground"
-                            )}
-                        >
-                            <div className="mr-2 mt-1">
-                                {m.role === 'user' ? <User size={16} /> : <Bot size={16} />}
+                ) : (
+                    <>
+                        {messages.map((m) => (
+                            <div
+                                key={m.id}
+                                className={cn(
+                                    "flex w-full",
+                                    m.role === 'user' ? "justify-end" : "justify-start"
+                                )}
+                            >
+                                <div
+                                    className={cn(
+                                        "flex items-start max-w-[80%] rounded-lg p-3",
+                                        m.role === 'user'
+                                            ? "bg-primary text-primary-foreground"
+                                            : "bg-muted text-foreground"
+                                    )}
+                                >
+                                    <div className="mr-2 mt-1">
+                                        {m.role === 'user' ? <User size={16} /> : <Bot size={16} />}
+                                    </div>
+                                    <div className="whitespace-pre-wrap">{m.content}</div>
+                                </div>
                             </div>
-                            <div className="whitespace-pre-wrap">{m.content}</div>
-                        </div>
-                    </div>
-                ))}
+                        ))}
+                    </>
+                )}
                 {status === 'streaming' && (
                     <div className="flex justify-start w-full">
                         <div className="bg-muted text-foreground rounded-lg p-3 flex items-center">
@@ -125,6 +159,7 @@ export default function Chat() {
                         </div>
                     </div>
                 )}
+                <div ref={messagesEndRef} />
             </div>
 
             <form onSubmit={handleSubmit} className="p-4 border-t bg-background">

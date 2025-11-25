@@ -47,10 +47,23 @@ npm install
 Create a `.env.local` file in the root directory:
 
 ```env
+# Required - OpenAI API Configuration
 OPENAI_API_KEY=your_openai_api_key_here
+
+# Required - Supabase Configuration
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+
+# Optional - For future integrations (not currently used)
+# TRELLO_API_KEY=your_trello_api_key
+# TRELLO_TOKEN=your_trello_token
 ```
+
+**Security Notes**:
+- The `NEXT_PUBLIC_` prefix exposes variables to the client-side
+- The Supabase anon key is safe to expose as it's protected by Row Level Security (RLS) policies
+- Never commit `.env.local` to version control (it's in `.gitignore`)
+- For production, use environment variables in your hosting platform (Vercel, etc.)
 
 ### 3. Database Setup
 

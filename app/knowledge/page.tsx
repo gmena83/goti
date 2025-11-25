@@ -9,7 +9,7 @@ interface Document {
     source: string;
     created_at: string;
     updated_at: string;
-    document_chunks: { count: number }[];
+    chunk_count: number;
 }
 
 interface Stats {
@@ -178,7 +178,19 @@ export default function KnowledgeBasePage() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                 <div className="bg-white rounded-lg shadow overflow-hidden">
                     {loading ? (
-                        <div className="p-8 text-center text-gray-500">Loading...</div>
+                        <div className="p-8">
+                            <div className="space-y-4">
+                                {[...Array(5)].map((_, i) => (
+                                    <div key={i} className="animate-pulse flex space-x-4">
+                                        <div className="flex-1 space-y-3 py-1">
+                                            <div className="h-4 bg-gray-300 rounded w-3/4"></div>
+                                            <div className="h-4 bg-gray-300 rounded w-1/2"></div>
+                                            <div className="h-4 bg-gray-300 rounded w-5/6"></div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
                     ) : documents.length === 0 ? (
                         <div className="p-8 text-center text-gray-500">
                             No documents found. Upload your first document to get started!
@@ -216,7 +228,7 @@ export default function KnowledgeBasePage() {
                                             </span>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            {doc.document_chunks?.[0]?.count || 0}
+                                            {doc.chunk_count}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                             {new Date(doc.created_at).toLocaleDateString()}

@@ -1,32 +1,56 @@
-# Activepieces - Recent Releases
+# Activepieces - November 2025 Releases
 
-## Version 0.72.2
-### Bug Fixes
-- Fixed issues with piece execution
-- Improved error handling in flows
-- Enhanced stability for long-running workflows
+## Version 0.85.0 (November 2025)
 
-## Version 0.72.0
 ### New Features
-- **Third Party Pieces**: Expanded marketplace with community-contributed pieces
-- **Enhanced UI**: Improved flow builder interface
-- **Performance**: Faster flow execution and reduced latency
+- **AI Workflow Builder**: Create workflows using natural language
+- **Enhanced MCP Support**: Better Model Context Protocol integration
+- **Workflow Templates**: 200+ pre-built templates
+- **Performance Mode**: 50% faster execution for complex flows
 
-### Enhancements & Polish
-- Better error messages
-- Improved documentation
-- UI/UX refinements
+### New Pieces
+- Supabase integration
+- OpenAI GPT-4 Turbo
+- Anthropic Claude 4
+- Google Gemini Pro
+- Enhanced database connectors
 
-## Version 0.71.x Series
-### Exciting New Features
-- **AI Integration**: Support for AI-powered workflow automation
-- **New Pieces**: Added integrations for popular services
-- **Workflow Templates**: Pre-built templates for common use cases
+## Version 0.84.0 (October 2025)
 
-### Bug Fixes
-- Resolved connection issues
-- Fixed trigger reliability
-- Improved piece compatibility
+### Enhancements
+- **Better Error Handling**: More detailed error messages
+- **Retry Logic**: Automatic retry for failed steps
+- **Debugging Tools**: Step-by-step execution viewer
+- **Performance Monitoring**: Built-in analytics
+
+### Community Pieces
+- 100+ new community-contributed pieces
+- Better documentation
+- Quality improvements
+- Testing framework
+
+## Version 0.83.0 (September 2025)
+
+### Platform Updates
+- **Cloud Hosting**: Managed Activepieces hosting
+- **Self-Hosting**: Improved Docker deployment
+- **API Enhancements**: New REST API endpoints
+- **Webhook Improvements**: Better webhook handling
+
+### Security
+- **OAuth 2.1**: Enhanced authentication
+- **Encryption**: End-to-end encryption
+- **Audit Logs**: Comprehensive logging
+- **RBAC**: Role-based access control
+
+## Key Features
+- Visual workflow builder
+- 300+ integrations
+- Self-hosted or cloud
+- Community pieces
+- AI integration
+- MCP support
+- Enterprise ready
 
 ## Key Topics
 - Workflow automation
@@ -35,3 +59,4 @@
 - Community pieces
 - Breaking changes
 - Version updates
+- Performance optimization

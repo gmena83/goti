@@ -2,12 +2,46 @@ import { createOpenAI } from '@ai-sdk/openai';
 import { streamText } from 'ai';
 import { supabase } from '../../../lib/supabase';
 import { searchSimilarChunks, formatContextForPrompt } from '../../../lib/vector-search';
+import { generateMessageId } from '../../../lib/utils/id-generator';
+import { getOrCreateChatSession } from '../../../lib/auth/session';
+import { validateChatRequest } from '../../../lib/middleware/validation';
+import { checkRateLimit, getRateLimitHeaders } from '../../../lib/middleware/rate-limit';
 
 export const maxDuration = 30;
 
 export async function POST(req: Request) {
     try {
-        const { messages } = await req.json();
+        const body = await req.json();
+
+        // Validate request
+        const validation = validateChatRequest(body);
+        if (!validation.valid) {
+            return new Response(JSON.stringify({ error: validation.error }), {
+                status: 400,
+                headers: { 'Content-Type': 'application/json' },
+            });
+        }
+
+        // Get or create chat session
+        const chatId = await getOrCreateChatSession();
+
+        // Rate limiting (20 requests per minute per session)
+        const rateLimit = checkRateLimit(chatId, 20, 60000);
+        const rateLimitHeaders = getRateLimitHeaders(rateLimit, 20);
+
+        if (!rateLimit.allowed) {
+            return new Response(JSON.stringify({
+                error: 'Rate limit exceeded. Please try again later.'
+            }), {
+                status: 429,
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...rateLimitHeaders
+                },
+            });
+        }
+
+        const { messages } = body;
 
         // Transform messages from UIMessage format to CoreMessage format
         const transformedMessages = messages.map((msg: any) => ({
@@ -28,18 +62,24 @@ export async function POST(req: Request) {
         const lastMessage = messages[messages.length - 1];
         const userQuery = lastMessage.parts?.[0]?.text || lastMessage.content || '';
 
-        // Perform RAG retrieval
+        // Perform RAG retrieval with improved error handling
         let contextText = '';
+        let ragStatus = 'success';
         try {
             const relevantChunks = await searchSimilarChunks(userQuery, 3, 0.7);
             contextText = formatContextForPrompt(relevantChunks);
+            if (relevantChunks.length === 0) {
+                ragStatus = 'no_results';
+            }
         } catch (ragError) {
-            console.error('RAG retrieval error (continuing without context):', ragError);
-            // Continue without context if RAG fails
+            console.error('RAG retrieval error:', ragError);
+            ragStatus = 'error';
+            // Add note to system prompt about unavailable knowledge base
+            contextText = '\n\nNote: Knowledge base search is temporarily unavailable.';
         }
 
         // Save user message to Supabase
-        const chatId = 'default-chat';
+        // chatId already obtained from session above
 
         const { error: chatError } = await supabase
             .from('chats')
@@ -48,7 +88,7 @@ export async function POST(req: Request) {
         if (chatError) console.error('Error creating chat:', chatError);
 
         await supabase.from('messages').insert({
-            id: Date.now().toString(),
+            id: generateMessageId(),
             chat_id: chatId,
             role: 'user',
             content: userQuery,
@@ -68,7 +108,7 @@ When answering questions, use the provided context from the knowledge base when 
             onFinish: async (event) => {
                 // Save assistant message
                 await supabase.from('messages').insert({
-                    id: (Date.now() + 1).toString(),
+                    id: generateMessageId(),
                     chat_id: chatId,
                     role: 'assistant',
                     content: event.text,

@@ -1,49 +1,66 @@
-# Replit Changelog - 2024
+# Replit Changelog - November 2025
 
-## Major Updates
+## November 2025
 
-### AI Features
-- **Design Mode**: AI-powered UI design and generation
-- **Agent 3**: Advanced AI coding assistant
-- **Code Completion**: Improved AI code suggestions
-- **Bug Detection**: AI-powered error detection
+### Replit Agent 4.0
+- **Enhanced AI Capabilities**: More accurate code generation and debugging
+- **Multi-Language Support**: Improved support for 50+ programming languages
+- **Context Awareness**: Better understanding of project structure and dependencies
+- **Real-time Collaboration**: AI assists multiple developers simultaneously
 
-### Development Environment
-- **Faster Deployments**: Improved deployment speed
-- **Better Debugging**: Enhanced debugging tools
-- **Collaborative Coding**: Real-time collaboration features
+### Deployment Improvements
+- **Autoscale**: Automatic scaling based on traffic
+- **Global CDN**: Faster content delivery worldwide
+- **Zero-Downtime Deploys**: Seamless updates without interruption
+- **Custom Domains**: Easier domain management
 
-### Mobile Apps
-- **iOS App**: Native iPhone and iPad support
-- **Android App**: Native Android development
-- **Mobile Coding**: Code on the go
+### Mobile App Updates
+- **iOS & Android**: Redesigned mobile coding experience
+- **Offline Mode**: Code without internet connection
+- **Touch Optimizations**: Better mobile keyboard and gestures
+- **Push Notifications**: Get notified of deployment status
 
-### Integrations
-- **GitHub Sync**: Better Git integration
-- **Database Support**: PostgreSQL, MongoDB support
-- **API Integrations**: Connect to external services
+## October 2025
 
-## Platform Enhancements
+### Replit Design Mode 2.0
+- **Visual Editor**: Build UIs without writing code
+- **Component Library**: Pre-built UI components
+- **Responsive Design**: Automatic mobile/desktop layouts
+- **Theme Customization**: Easy styling and branding
 
 ### Performance
-- **Faster Repls**: Improved startup times
-- **Better Caching**: Reduced load times
-- **Optimized Builds**: Faster compilation
+- **50% Faster Builds**: Optimized build pipeline
+- **Instant Hot Reload**: See changes immediately
+- **Better Caching**: Reduced cold start times
+- **Resource Optimization**: More efficient resource usage
 
-### Templates
-- **New Templates**: Pre-built project templates
-- **Community Templates**: Share and discover templates
-- **Custom Templates**: Create your own
+## September 2025
 
-### Education Features
-- **Classroom Tools**: Better teaching features
-- **Student Management**: Enhanced class management
-- **Assignment Tracking**: Monitor student progress
+### AI Features
+- **Code Explanation**: AI explains complex code
+- **Bug Detection**: Automatic bug identification
+- **Performance Suggestions**: AI-powered optimization tips
+- **Documentation Generation**: Auto-generate docs from code
+
+### Collaboration
+- **Live Cursors**: See where teammates are coding
+- **Voice Chat**: Built-in voice communication
+- **Code Review**: In-editor code review tools
+- **Shared Terminals**: Collaborate in the same terminal
+
+## Key Features
+- AI-powered development (Agent 4.0)
+- Instant deployment
+- Real-time collaboration
+- Mobile coding apps
+- 50+ language support
+- Built-in database
+- Package management
+- Version control
 
 ## Key Topics
-- AI features (Design Mode, Agent 3)
-- Mobile apps
-- Integrations
-- Performance improvements
-- Templates
-- Education tools
+- AI-powered coding
+- Deployment automation
+- Mobile development
+- Real-time collaboration
+- Performance optimization

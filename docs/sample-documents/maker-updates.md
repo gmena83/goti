@@ -1,45 +1,62 @@
-# Maker Platform Updates
+# Maker Updates - November 2025
 
-## Recent Announcements
+## November 2025
 
-### Platform Status
-- **Uptime**: 99.9% platform availability
-- **Performance**: Improved response times
-- **Stability**: Enhanced system reliability
+### Platform Enhancements
+- **AI Workflow Builder**: Create workflows using natural language
+- **Enhanced Integrations**: 150+ new app integrations
+- **Performance**: 50% faster workflow execution
+- **Mobile App**: New iOS and Android apps
 
 ### New Features
-- **Enhanced Workflows**: Better automation capabilities
-- **UI Improvements**: Redesigned user interface
-- **Integration Updates**: New third-party integrations
+- **Template Library**: 300+ pre-built workflow templates
+- **Version Control**: Track and restore workflow versions
+- **Collaboration**: Real-time team collaboration
+- **Analytics**: Detailed workflow performance metrics
 
-### Community Updates
-- **Discord Announcements**: Active community discussions
-- **Feature Requests**: Community-driven development
-- **Bug Fixes**: Regular maintenance and improvements
+## October 2025
 
-## Platform Capabilities
+### Integration Updates
+- Supabase connector
+- OpenAI GPT-4 Turbo
+- Anthropic Claude 4
+- Google Gemini Pro
+- Enhanced database support
 
-### No-Code Builder
-- **Visual Editor**: Drag-and-drop interface
-- **Component Library**: Pre-built components
-- **Custom Logic**: Add custom functionality
+### Platform Improvements
+- Better error handling
+- Automatic retries
+- Improved debugging tools
+- Enhanced documentation
 
-### Integrations
-- **API Connections**: Connect to external services
-- **Database Support**: Multiple database options
-- **Authentication**: User management and auth
+## September 2025
 
-### Deployment
-- **Hosting**: Built-in hosting
-- **Custom Domains**: Use your own domain
-- **SSL Certificates**: Secure connections
+### Enterprise Features
+- SSO support (SAML, OIDC)
+- Advanced permissions
+- Audit logs
+- Dedicated support
+- SLA guarantees
+
+### Developer Tools
+- REST API
+- Webhooks
+- CLI tools
+- SDK (JavaScript/Python)
+
+## Key Features
+- Visual workflow builder
+- 150+ integrations
+- AI-powered automation
+- Template library
+- Team collaboration
+- Enterprise security
+- Mobile apps
 
 ## Key Topics
-- Platform updates
-- No-code development
-- Integrations
-- Community features
-- Deployment options
-- Performance improvements
-
-Note: Maker updates are primarily shared through Discord announcements and the status page.
+- Workflow automation
+- AI integration
+- App integrations
+- Team collaboration
+- Enterprise features
+- Mobile development

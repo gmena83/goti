@@ -1,48 +1,61 @@
-# Base44 Updates
+# Base44 Changelog - November 2025
 
-## Recent Features
+## November 2025 Update
 
-### Template Marketplace
-- **Pre-built Templates**: Ready-to-use app templates
-- **Community Templates**: Share and discover templates
-- **Custom Templates**: Create your own templates
+### Template Marketplace 2.0
+- **1000+ Templates**: Expanded template library
+- **AI-Generated Templates**: Create templates using AI
+- **Template Versioning**: Track template changes
+- **Community Sharing**: Share and monetize templates
 
-### AI Models
-- **Latest Models**: Support for newest AI models
-- **Model Selection**: Choose from multiple AI providers
-- **Custom Training**: Fine-tune models for your needs
+### AI Model Support
+- **GPT-4 Turbo**: Latest OpenAI integration
+- **Claude 4**: Anthropic support
+- **Gemini Pro 2.0**: Google AI
+- **Custom Models**: Fine-tuned model support
+- **Model Switching**: Easy model comparison
 
-### Connectors
-- **API Integrations**: Connect to external services
-- **Database Connectors**: Link to various databases
-- **Webhook Support**: Real-time data synchronization
+## October 2025
 
-### Versioning
-- **Version Control**: Track changes to your apps
-- **Rollback**: Revert to previous versions
-- **Branching**: Work on multiple versions
+### Connector Updates
+- **200+ Connectors**: New integrations added
+- **Database Connectors**: PostgreSQL, MySQL, MongoDB
+- **API Connectors**: REST, GraphQL, SOAP
+- **File Connectors**: S3, Google Drive, Dropbox
 
-## Platform Capabilities
+### Platform Improvements
+- **Faster Builds**: 40% faster compilation
+- **Better Debugging**: Enhanced error messages
+- **Version Control**: Git integration
+- **Collaboration**: Real-time team collaboration
 
-### App Building
-- **Visual Builder**: Drag-and-drop interface
-- **Code Editor**: Direct code editing
-- **Component Library**: Reusable components
+## September 2025
 
-### Deployment
-- **One-Click Deploy**: Easy deployment process
-- **Custom Domains**: Use your own domain
-- **SSL Support**: Secure connections
+### Enterprise Features
+- **SSO**: SAML and OIDC support
+- **Advanced Permissions**: Granular access control
+- **Audit Logs**: Compliance logging
+- **SLA**: 99.9% uptime guarantee
 
-### Collaboration
-- **Team Workspaces**: Collaborate with team members
-- **Access Control**: Manage permissions
-- **Comments**: Discuss changes inline
+### Developer Tools
+- **CLI**: Command-line interface
+- **API**: Full REST API
+- **SDK**: JavaScript/Python SDKs
+- **Webhooks**: Event notifications
+
+## Key Features
+- Template marketplace
+- AI model integration
+- 200+ connectors
+- Version control
+- Team collaboration
+- Enterprise security
+- Developer tools
 
 ## Key Topics
 - Template marketplace
 - AI models
 - Connectors
 - Versioning
-- Visual builder
-- Deployment
+- Collaboration
+- Enterprise features

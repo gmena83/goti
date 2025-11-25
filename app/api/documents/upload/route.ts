@@ -2,25 +2,31 @@ import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '../../../../lib/supabase';
 import { processDocument } from '../../../../lib/document-processing';
 import { generateEmbeddings } from '../../../../lib/embeddings';
+import { generateDocumentId, generateChunkId } from '../../../../lib/utils/id-generator';
+import { validateDocumentUpload } from '../../../../lib/middleware/validation';
 
 export const maxDuration = 60; // Allow up to 60 seconds for processing
 
 export async function POST(req: NextRequest) {
     try {
-        const { title, content, source } = await req.json();
+        const body = await req.json();
 
-        if (!title || !content || !source) {
+        // Validate request
+        const validation = validateDocumentUpload(body);
+        if (!validation.valid) {
             return NextResponse.json(
-                { error: 'Missing required fields: title, content, source' },
+                { error: validation.error },
                 { status: 400 }
             );
         }
+
+        const { title, content, source } = body;
 
         // Process the document: chunk it and extract metadata
         const processed = await processDocument(title, content, source);
 
         // Generate a unique ID for the document
-        const documentId = `doc_${Date.now()}_${Math.random().toString(36).substring(7)}`;
+        const documentId = generateDocumentId();
 
         // Save the document to Supabase
         const { error: docError } = await supabase.from('documents').insert({
@@ -44,7 +50,7 @@ export async function POST(req: NextRequest) {
 
         // Prepare chunk records with embeddings
         const chunkRecords = processed.chunks.map((chunk, index) => ({
-            id: `chunk_${documentId}_${index}`,
+            id: generateChunkId(documentId, index),
             document_id: documentId,
             content: chunk,
             embedding: embeddings[index],

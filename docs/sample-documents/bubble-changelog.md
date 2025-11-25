@@ -1,48 +1,61 @@
-# Bubble Platform Updates - 2024
+# Bubble Platform Updates - November 2025
 
-## Recent Enhancements
+## November 2025
 
-### AI Features
-- **AI-Powered Development**: Enhanced AI assistance for app building
-- **Smart Suggestions**: AI-driven component recommendations
-- **Code Generation**: Automated workflow creation
+### AI Enhancements
+- **AI Page Builder**: Generate entire pages from descriptions
+- **Smart Workflows**: AI suggests workflow optimizations
+- **Data Model Assistant**: AI helps design database structures
+- **Bug Prediction**: AI identifies potential issues before deployment
 
-### Version Control
-- **Git Integration**: Better version control for apps
+### Mobile App Builder 2.0
+- **Native Performance**: Better mobile app performance
+- **Offline Support**: Apps work without internet
+- **Push Notifications**: Enhanced notification system
+- **App Store Optimization**: Tools for better app store presence
+
+## October 2025
+
+### Version Control Improvements
+- **Git Integration**: Direct GitHub/GitLab integration
 - **Branch Management**: Work on multiple versions simultaneously
-- **Merge Capabilities**: Easier collaboration
-
-### Mobile App Builder
-- **Native Mobile**: Build iOS and Android apps
-- **Responsive Design**: Automatic mobile optimization
-- **Push Notifications**: Native notification support
+- **Merge Conflicts**: Better conflict resolution tools
+- **Deployment Pipelines**: Automated testing and deployment
 
 ### Editor Improvements
-- **Performance**: Faster editor loading and saving
-- **UI/UX**: Redesigned interface for better usability
-- **Debugging Tools**: Enhanced error detection and fixing
+- **Faster Loading**: 60% faster editor load times
+- **Better Search**: Find elements and workflows quickly
+- **Keyboard Shortcuts**: More productivity shortcuts
+- **Dark Mode**: Enhanced dark theme
 
-## Platform Features
+## September 2025
 
-### Database
-- **Privacy Rules**: Enhanced data security
-- **Search Improvements**: Better search functionality
-- **Data Types**: New field types and options
+### Performance
+- **Server-Side Rendering**: Faster page loads
+- **CDN Integration**: Global content delivery
+- **Database Optimization**: Automatic query optimization
+- **Caching**: Smart caching for better performance
 
-### Workflows
-- **Custom Events**: More flexible event handling
-- **API Connector**: Enhanced external API integration
-- **Scheduled Workflows**: Time-based automation
+### Integrations
+- **API Connector 2.0**: Easier API integrations
+- **Plugin Marketplace**: 1000+ plugins available
+- **OAuth 2.1**: Enhanced authentication
+- **Webhooks**: Better webhook management
 
-### Plugins
-- **Plugin Marketplace**: Expanded plugin ecosystem
-- **Custom Plugins**: Build your own plugins
-- **Plugin Updates**: Improved plugin management
+## Key Features
+- Visual development platform
+- No-code/low-code
+- Responsive design
+- Database included
+- API integrations
+- Mobile app builder
+- Version control
+- AI assistance
 
 ## Key Topics
-- AI enhancements
+- No-code development
+- Mobile apps
+- AI integration
 - Version control
-- Mobile app builder
-- Editor improvements
-- Database features
-- Workflow automation
+- Performance optimization
+- API connectivity
