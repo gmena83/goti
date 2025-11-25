@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { Code, Bug, Rocket, Clock, MessageSquare, Eye } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -10,41 +11,70 @@ interface Metric {
     color: string;
 }
 
+interface MetricsData {
+    totalConversations: number;
+    totalMessages: number;
+    linesOfCode: number;
+    bugsFound: number;
+    hoursVibecoding: number;
+    trackedTools: number;
+}
+
 export default function MetricsBar() {
+    const [metricsData, setMetricsData] = useState<MetricsData | null>(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function fetchMetrics() {
+            try {
+                const response = await fetch('/api/metrics');
+                if (response.ok) {
+                    const data = await response.json();
+                    setMetricsData(data);
+                }
+            } catch (error) {
+                console.error('Error fetching metrics:', error);
+            } finally {
+                setLoading(false);
+            }
+        }
+        fetchMetrics();
+    }, []);
+
     const metrics: Metric[] = [
         {
             icon: <Code size={20} />,
-            value: '12,847',
+            value: loading ? '...' : metricsData?.linesOfCode.toLocaleString() || '0',
             label: 'Lines of Code',
             color: 'text-blue-400',
         },
         {
             icon: <Bug size={20} />,
-            value: '47',
+            value: loading ? '...' : String(metricsData?.bugsFound || 0),
             label: 'Bugs Found',
             color: 'text-red-400',
         },
         {
             icon: <Rocket size={20} />,
-            value: '3',
-            label: 'Payloads Shipped',
+            value: loading ? '...' : String(metricsData?.totalConversations || 0),
+            label: 'Conversations',
             color: 'text-green-400',
         },
         {
             icon: <Clock size={20} />,
-            value: '156',
+            value: loading ? '...' : String(metricsData?.hoursVibecoding || 0),
             label: 'Hours Vibecoding',
             color: 'text-purple-400',
         },
         {
             icon: <MessageSquare size={20} />,
-            value: '89',
-            label: 'Conversations',
+            value: loading ? '...' : String(metricsData?.totalMessages || 0),
+            label: 'Messages',
             color: 'text-pink-400',
         },
         {
             icon: <Eye size={20} />,
-            value: '12',
+            value: loading ? '...' : String(metricsData?.trackedTools || 0),
             label: 'Tracked',
             color: 'text-cyan-400',
         },

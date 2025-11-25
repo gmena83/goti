@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Send, Bot, User, RefreshCw, Wrench, Lightbulb, Bug } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import QuickActionCard from './quick-action-card';
-
+import MarkdownMessage from './markdown-message';
 
 interface Message {
     id: string;
@@ -185,10 +185,16 @@ export default function Chat() {
                                             : "glass text-foreground"
                                     )}
                                 >
-                                    <div className="mr-3 mt-1">
+                                    <div className="mr-3 mt-1 flex-shrink-0">
                                         {m.role === 'user' ? <User size={18} /> : <Bot size={18} />}
                                     </div>
-                                    <div className="whitespace-pre-wrap text-sm">{m.content}</div>
+                                    <div className="flex-1 min-w-0 overflow-hidden">
+                                        {m.role === 'user' ? (
+                                            <div className="whitespace-pre-wrap text-sm">{m.content}</div>
+                                        ) : (
+                                            <MarkdownMessage content={m.content} />
+                                        )}
+                                    </div>
                                 </div>
                             </div>
                         ))}

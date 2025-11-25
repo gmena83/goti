@@ -1,7 +1,7 @@
 import { useState, KeyboardEvent } from 'react';
 import { Paperclip, ArrowUp } from '@phosphor-icons/react';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
+import { Button } from './ui/button';
+import { Textarea } from './ui/textarea';
 
 interface ChatInputProps {
   onSend: (content: string) => void;

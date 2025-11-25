@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { GotiSidebar } from '@/components/GotiSidebar';
-import { ChatInterface } from '@/components/ChatInterface';
-import { ContextPanel } from '@/components/ContextPanel';
-import { MetricsBar } from '@/components/MetricsBar';
+import { GotiSidebar } from '@/app/components/lovable/GotiSidebar';
+import { ChatInterface } from '@/app/components/lovable/ChatInterface';
+import { ContextPanel } from '@/app/components/lovable/ContextPanel';
+import { MetricsBar } from '@/app/components/lovable/MetricsBar';
 import { Message, mockConversations } from '@/lib/mockData';
 
 const Index = () => {
@@ -72,7 +72,7 @@ Would you like me to elaborate on any specific aspect?`,
         activeConversationId={activeConversationId}
         onSelectConversation={handleSelectConversation}
       />
-      
+
       <div className="flex-1 flex flex-col overflow-hidden">
         <MetricsBar />
         <div className="flex-1 overflow-hidden">
@@ -83,7 +83,7 @@ Would you like me to elaborate on any specific aspect?`,
           />
         </div>
       </div>
-      
+
       <ContextPanel />
     </div>
   );

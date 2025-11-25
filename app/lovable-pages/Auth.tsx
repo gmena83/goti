@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { useRouter } from 'next/navigation';
+import { Button } from '@/app/components/lovable/ui/button';
+import { Input } from '@/app/components/lovable/ui/input';
+import { Label } from '@/app/components/lovable/ui/label';
 import { Sparkle, GoogleLogo } from '@phosphor-icons/react';
-import { supabase } from '@/integrations/supabase/client';
+import { supabase } from '@/lib/supabase';
 import { toast } from 'sonner';
 
 export default function Auth() {
-  const navigate = useNavigate();
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isSignUp, setIsSignUp] = useState(false);
@@ -18,19 +18,19 @@ export default function Auth() {
     // Check if user is already logged in
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) {
-        navigate('/');
+        router.push('/');
       }
     });
 
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (session) {
-        navigate('/');
+        router.push('/');
       }
     });
 
     return () => subscription.unsubscribe();
-  }, [navigate]);
+  }, [router]);
 
   const handleEmailAuth = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,7 +45,7 @@ export default function Auth() {
             emailRedirectTo: `${window.location.origin}/`,
           },
         });
-        
+
         if (error) throw error;
         toast.success('Account created! You can now sign in.');
         setIsSignUp(false);
@@ -54,7 +54,7 @@ export default function Auth() {
           email,
           password,
         });
-        
+
         if (error) throw error;
         toast.success('Signed in successfully!');
       }
@@ -67,7 +67,7 @@ export default function Auth() {
 
   const handleGoogleAuth = async () => {
     setIsLoading(true);
-    
+
     try {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
@@ -75,7 +75,7 @@ export default function Auth() {
           redirectTo: `${window.location.origin}/`,
         },
       });
-      
+
       if (error) throw error;
     } catch (error: any) {
       toast.error(error.message || 'An error occurred');

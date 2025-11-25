@@ -1,5 +1,5 @@
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Button } from '@/components/ui/button';
+import { ScrollArea } from './ui/scroll-area';
+import { Button } from './ui/button';
 import { Sparkle, Atom, Code, Bug, Lightning } from '@phosphor-icons/react';
 import { Message, quickStarters } from '@/lib/mockData';
 import { ChatMessage } from './ChatMessage';

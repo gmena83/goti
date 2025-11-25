@@ -1,6 +1,6 @@
-import { Card } from '@/components/ui/card';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Badge } from '@/components/ui/badge';
+import { Card } from './ui/card';
+import { ScrollArea } from './ui/scroll-area';
+import { Badge } from './ui/badge';
 import { mockToolUpdates } from '@/lib/mockData';
 import { formatDistanceToNow } from 'date-fns';
 import { Sparkles, ExternalLink } from 'lucide-react';
@@ -29,24 +29,24 @@ export function ContextPanel() {
             >
               <div className="flex items-start gap-3">
                 <div className="text-2xl flex-shrink-0 mt-1">{update.icon}</div>
-                
+
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between gap-2 mb-2">
                     <h3 className="font-semibold text-sm truncate">
                       {update.tool}
                     </h3>
-                    <Badge 
-                      variant="secondary" 
+                    <Badge
+                      variant="secondary"
                       className="text-xs flex-shrink-0 bg-primary/10 text-primary border-primary/20"
                     >
                       {update.version}
                     </Badge>
                   </div>
-                  
+
                   <p className="text-xs text-muted-foreground mb-2 line-clamp-2">
                     {update.summary}
                   </p>
-                  
+
                   <div className="flex items-center justify-between">
                     <span className="text-xs text-muted-foreground">
                       {formatDistanceToNow(update.date, { addSuffix: true })}

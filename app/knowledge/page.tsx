@@ -174,6 +174,61 @@ export default function KnowledgeBasePage() {
                 </div>
             </div>
 
+            {/* Vibecoding Tutorials Section */}
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+                <div className="bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg shadow-lg p-6 border border-purple-200">
+                    <div className="flex items-center justify-between mb-4">
+                        <div>
+                            <h2 className="text-2xl font-bold text-gray-900 mb-2">📚 Vibecoding Tutorials</h2>
+                            <p className="text-gray-600">76 comprehensive guides across 14 platforms</p>
+                        </div>
+                        <a
+                            href="/docs/vibecoding-tutorials/README.md"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors"
+                        >
+                            View All Tutorials
+                        </a>
+                    </div>
+
+                    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3 mt-4">
+                        <a href="/docs/vibecoding-tutorials/antigravity" className="bg-white p-3 rounded-lg shadow hover:shadow-md transition-shadow text-center">
+                            <div className="text-sm font-semibold text-gray-900">Antigravity</div>
+                            <div className="text-xs text-gray-500">7 tutorials</div>
+                        </a>
+                        <a href="/docs/vibecoding-tutorials/base44" className="bg-white p-3 rounded-lg shadow hover:shadow-md transition-shadow text-center">
+                            <div className="text-sm font-semibold text-gray-900">Base44</div>
+                            <div className="text-xs text-gray-500">9 tutorials</div>
+                        </a>
+                        <a href="/docs/vibecoding-tutorials/bolt" className="bg-white p-3 rounded-lg shadow hover:shadow-md transition-shadow text-center">
+                            <div className="text-sm font-semibold text-gray-900">Bolt</div>
+                            <div className="text-xs text-gray-500">5 tutorials</div>
+                        </a>
+                        <a href="/docs/vibecoding-tutorials/cursor" className="bg-white p-3 rounded-lg shadow hover:shadow-md transition-shadow text-center">
+                            <div className="text-sm font-semibold text-gray-900">Cursor</div>
+                            <div className="text-xs text-gray-500">6 tutorials</div>
+                        </a>
+                        <a href="/docs/vibecoding-tutorials/lovable" className="bg-white p-3 rounded-lg shadow hover:shadow-md transition-shadow text-center">
+                            <div className="text-sm font-semibold text-gray-900">Lovable</div>
+                            <div className="text-xs text-gray-500">5 tutorials</div>
+                        </a>
+                        <a href="/docs/vibecoding-tutorials/n8n" className="bg-white p-3 rounded-lg shadow hover:shadow-md transition-shadow text-center">
+                            <div className="text-sm font-semibold text-gray-900">n8n</div>
+                            <div className="text-xs text-gray-500">5 tutorials</div>
+                        </a>
+                        <a href="/docs/vibecoding-tutorials/multiple" className="bg-white p-3 rounded-lg shadow hover:shadow-md transition-shadow text-center">
+                            <div className="text-sm font-semibold text-gray-900">Comparisons</div>
+                            <div className="text-xs text-gray-500">22 guides</div>
+                        </a>
+                    </div>
+
+                    <div className="mt-4 text-sm text-gray-600">
+                        <strong>💡 Tip:</strong> Ask GOTI about any vibecoding platform! Try: "Show me Cursor tutorials" or "Compare Lovable vs Bolt"
+                    </div>
+                </div>
+            </div>
+
             {/* Documents Table */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                 <div className="bg-white rounded-lg shadow overflow-hidden">

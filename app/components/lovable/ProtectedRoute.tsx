@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Navigate } from 'react-router-dom';
-import { supabase } from '@/integrations/supabase/client';
+import { useRouter } from 'next/navigation';
+import { supabase } from '@/lib/supabase';
 import { Loader2 } from 'lucide-react';
 
 export function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     // Check initial session
@@ -20,6 +21,12 @@ export function ProtectedRoute({ children }: { children: React.ReactNode }) {
     return () => subscription.unsubscribe();
   }, []);
 
+  useEffect(() => {
+    if (isAuthenticated === false) {
+      router.push('/auth');
+    }
+  }, [isAuthenticated, router]);
+
   if (isAuthenticated === null) {
     return (
       <div className="flex items-center justify-center h-screen bg-background">
@@ -29,7 +36,7 @@ export function ProtectedRoute({ children }: { children: React.ReactNode }) {
   }
 
   if (!isAuthenticated) {
-    return <Navigate to="/auth" replace />;
+    return null; // or a loading spinner while redirecting
   }
 
   return <>{children}</>;

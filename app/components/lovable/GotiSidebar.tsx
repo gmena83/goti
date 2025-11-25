@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Brain, Plus, ClockCounterClockwise, Eye, Gear, UserCircle, SignOut } from '@phosphor-icons/react';
-import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Separator } from '@/components/ui/separator';
+import { Button } from './ui/button';
+import { ScrollArea } from './ui/scroll-area';
+import { Separator } from './ui/separator';
 import { mockConversations } from '@/lib/mockData';
 import { formatDistanceToNow } from 'date-fns';
-import { supabase } from '@/integrations/supabase/client';
+import { supabase } from '@/lib/supabase';
 import { User } from '@supabase/supabase-js';
 import { toast } from 'sonner';
 
@@ -79,16 +79,14 @@ export function GotiSidebar({ onNewChat, activeConversationId, onSelectConversat
             <button
               key={conv.id}
               onClick={() => onSelectConversation(conv.id)}
-              className={`w-full px-3 py-2 text-left text-sm rounded-lg transition-all ${
-                activeConversationId === conv.id
-                  ? 'bg-primary text-primary-foreground'
-                  : 'text-foreground hover:bg-secondary'
-              }`}
+              className={`w-full px-3 py-2 text-left text-sm rounded-lg transition-all ${activeConversationId === conv.id
+                ? 'bg-primary text-primary-foreground'
+                : 'text-foreground hover:bg-secondary'
+                }`}
             >
               <div className="truncate font-medium">{conv.title}</div>
-              <div className={`text-xs mt-1 ${
-                activeConversationId === conv.id ? 'text-primary-foreground/70' : 'text-muted-foreground'
-              }`}>
+              <div className={`text-xs mt-1 ${activeConversationId === conv.id ? 'text-primary-foreground/70' : 'text-muted-foreground'
+                }`}>
                 {formatDistanceToNow(conv.date, { addSuffix: true })}
               </div>
             </button>
@@ -117,7 +115,7 @@ export function GotiSidebar({ onNewChat, activeConversationId, onSelectConversat
 
       {/* New Chat Button */}
       <div className="p-4">
-        <Button 
+        <Button
           onClick={onNewChat}
           className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
         >
