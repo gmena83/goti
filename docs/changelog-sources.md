@@ -32,7 +32,7 @@ This document tracks the official changelog/documentation sources for tools that
 - **Note**: No traditional changelog page; updates via Discord and status page
 
 ### 5. Replit
-- **Changelog URL**: https://replit.com/changelog (inferred from research)
+- **Changelog URL**: https://replit.com/changelog
 - **Documentation**: https://docs.replit.com/
 - **Update Frequency**: Monthly
 - **Key Topics**: AI features (Design Mode, Agent 3), integrations, mobile apps
@@ -49,9 +49,37 @@ This document tracks the official changelog/documentation sources for tools that
 - **Update Frequency**: Monthly
 - **Key Topics**: Template marketplace, AI models, connectors, versioning
 
+### 8. n8n.io
+- **Changelog URL**: https://docs.n8n.io/release-notes/
+- **GitHub Releases**: https://github.com/n8n-io/n8n/releases
+- **Documentation**: https://docs.n8n.io/
+- **Update Frequency**: Weekly (fast-paced releases)
+- **Key Topics**: New nodes, workflow automation, integrations, breaking changes
+
+### 9. Stack AI
+- **Changelog URL**: https://www.stack-ai.com/changelog
+- **Documentation**: https://docs.stack-ai.io/
+- **Update Frequency**: Monthly
+- **Key Topics**: Template library, knowledge base, GPT models, integrations
+
+### 10. Supabase
+- **Changelog URL**: https://supabase.com/changelog
+- **GitHub**: https://github.com/supabase/supabase
+- **Documentation**: https://supabase.com/docs
+- **Update Frequency**: Frequent (multiple updates per month)
+- **Key Topics**: Auth enhancements, dashboard updates, edge functions, realtime features
+
+### 11. Antigravity
+- **Changelog URL**: https://antigravity.google/changelog
+- **Documentation**: https://antigravity.google/docs
+- **Update Frequency**: As needed (recently launched November 2025)
+- **Key Topics**: AI-powered IDE, agent features, Gemini 3 integration, developer tools
+
 ## Next Steps
 
-1. Research changelog sources for Maker, Replit, Bubble, and Base44
-2. Create initial markdown files from the confirmed sources (Lovable, Zapier, Activepieces)
-3. Set up monthly update reminder
-4. Build automated web scraping for future updates
+1. ~~Research changelog sources for Maker, Replit, Bubble, and Base44~~ ✅
+2. ~~Research changelog sources for n8n, Stack AI, Supabase, and Antigravity~~ ✅
+3. Create initial markdown files from the confirmed sources
+4. Upload documents to GOTI knowledge base
+5. Set up monthly update reminder
+6. Build automated web scraping for future updates
