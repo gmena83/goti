@@ -225,9 +225,9 @@ To transform GOTI into a key ally for your AI Consultancy, Education, and Develo
 ### Phase 1: Knowledge Expansion & Automation (The "Brain") 🧠
 *Focus: Increasing the depth and freshness of technical knowledge.*
 - [ ] **Automated Changelog Scraping**: Implement n8n workflows to daily scrape and update documentation for tracked tools.
-- [ ] **Multi-Modal Input**: Allow users to upload screenshots of UI/code for analysis (using GPT-4o Vision).
+- [x] **Multi-Modal Input**: Allow users to upload screenshots of UI/code for analysis (using GPT-4o Vision).
 - [ ] **Expanded Knowledge Base**: Add architectural patterns, system design docs, and "Vibecoding" best practices.
-- [ ] **Voice Interface**: Enable voice-to-text for "walking and talking" coding sessions.
+- [x] **Voice Interface**: Enable voice-to-text for "walking and talking" coding sessions.
 
 ### Phase 2: Client & Project Management (The "Business") 💼
 *Focus: Managing multiple clients and projects efficiently.*
