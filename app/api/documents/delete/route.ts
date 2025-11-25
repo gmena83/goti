@@ -3,8 +3,8 @@ import { supabase } from '../../../../lib/supabase';
 
 export async function DELETE(req: NextRequest) {
     try {
-        const { searchParams } = new URL(req.url);
-        const documentId = searchParams.get('id');
+        const body = await req.json();
+        const documentId = body.id;
 
         if (!documentId) {
             return NextResponse.json(
