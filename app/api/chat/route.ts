@@ -41,13 +41,26 @@ export async function POST(req: Request) {
             });
         }
 
-        const { messages } = body;
+        const { messages, image } = body;
 
         // Transform messages from UIMessage format to CoreMessage format
-        const transformedMessages = messages.map((msg: any) => ({
-            role: msg.role,
-            content: msg.parts?.[0]?.text || msg.content || '',
-        }));
+        const transformedMessages = messages.map((msg: any, index: number) => {
+            // If it's the last message and we have an image, format as multi-modal
+            if (index === messages.length - 1 && image) {
+                return {
+                    role: msg.role,
+                    content: [
+                        { type: 'text', text: msg.content || '' },
+                        { type: 'image', image: image }
+                    ]
+                };
+            }
+
+            return {
+                role: msg.role,
+                content: msg.parts?.[0]?.text || msg.content || '',
+            };
+        });
 
         const apiKey = process.env.OPENAI_API_KEY;
         if (!apiKey) {
