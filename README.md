@@ -5,10 +5,12 @@ An AI assistant powered by OpenAI GPT-4 with RAG (Retrieval-Augmented Generation
 ## Features
 
 ### Core Functionality
-- 🤖 **AI Chat Interface**: Real-time streaming chat powered by OpenAI GPT-4
+- 🤖 **AI Chat Interface**: Real-time streaming chat powered by OpenAI GPT-4o
 - 📚 **RAG System**: Semantic search over documentation using vector embeddings
 - 💾 **Persistent Storage**: Chat history and documents stored in Supabase
-- 🔍 **Vector Search**: pgvector-powered similarity search for relevant context retrieval
+- 📊 **Real Metrics Dashboard**: Live tracking of conversations, lines of code generated, and bugs found
+- 🎨 **Enhanced Styling**: Beautiful markdown rendering with syntax highlighting and copy functionality
+- 📱 **Mobile Responsive**: Native-app like experience on iOS and Android
 
 ### Knowledge Base Coverage
 GOTI maintains up-to-date knowledge of:
@@ -23,10 +25,11 @@ GOTI maintains up-to-date knowledge of:
 ## Tech Stack
 
 - **Frontend**: Next.js 16 (App Router), React, TypeScript
-- **AI**: OpenAI GPT-4, text-embedding-3-small
+- **AI**: OpenAI GPT-4o, Vercel AI SDK
 - **Database**: Supabase (PostgreSQL + pgvector)
 - **RAG**: LangChain for document processing and embeddings
-- **Styling**: Tailwind CSS
+- **Styling**: Tailwind CSS, Shadcn/UI, Phosphor Icons
+- **Deployment**: Vercel
 
 ## Prerequisites
 
@@ -198,14 +201,54 @@ Verify your Supabase credentials in `.env.local` and ensure the schema has been 
 2. Ensure documents have been uploaded successfully
 3. Check browser console for any API errors
 
-## Future Enhancements
+## Deployment
 
-- [ ] UI for document management
-- [ ] PDF processing with pdf.co integration
-- [ ] Automated changelog scraping
-- [ ] Multi-modal support (images, diagrams)
-- [ ] Document versioning and updates
-- [ ] Advanced chunking strategies for code
+### Vercel (Production)
+
+1. **Push to GitHub**: Ensure your code is in a GitHub repository.
+2. **Import in Vercel**: Create a new project and import your repository.
+3. **Environment Variables**: Add the following in Vercel Project Settings:
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+   - `OPENAI_API_KEY`
+4. **Deploy**: Vercel will automatically build and deploy your app.
+
+### Mobile Installation
+
+- **iOS**: Open in Safari -> Share -> Add to Home Screen
+- **Android**: Open in Chrome -> Menu -> Add to Home Screen
+
+## Roadmap: AI Consultancy Evolution
+
+To transform GOTI into a key ally for your AI Consultancy, Education, and Development business, we propose the following evolutionary phases:
+
+### Phase 1: Knowledge Expansion & Automation (The "Brain") 🧠
+*Focus: Increasing the depth and freshness of technical knowledge.*
+- [ ] **Automated Changelog Scraping**: Implement n8n workflows to daily scrape and update documentation for tracked tools.
+- [ ] **Multi-Modal Input**: Allow users to upload screenshots of UI/code for analysis (using GPT-4o Vision).
+- [ ] **Expanded Knowledge Base**: Add architectural patterns, system design docs, and "Vibecoding" best practices.
+- [ ] **Voice Interface**: Enable voice-to-text for "walking and talking" coding sessions.
+
+### Phase 2: Client & Project Management (The "Business") 💼
+*Focus: Managing multiple clients and projects efficiently.*
+- [ ] **Multi-Tenant Support**: Separate chat history and knowledge bases per client/project.
+- [ ] **Context Injection**: Upload specific client requirements or brand guidelines to guide AI responses.
+- [ ] **Automated Reporting**: Generate weekly summaries of development progress, bugs fixed, and features built.
+- [ ] **Consultancy Dashboard**: Admin view to see usage stats across all client projects.
+
+### Phase 3: Advanced Agentic Capabilities (The "Workforce") 🤖
+*Focus: Moving from "Assistant" to "Agent" that performs tasks.*
+- [ ] **Code Generation Agents**: Allow GOTI to write files directly to GitHub repositories via PRs.
+- [ ] **Testing Agents**: Automatically generate and run test cases for generated code.
+- [ ] **Deployment Agents**: Trigger deployments or infrastructure changes via natural language.
+- [ ] **Tool Use**: Give GOTI access to linear/Jira to create tickets from chat.
+
+### Phase 4: Enterprise Integration & Scale (The "Empire") 🏢
+*Focus: Scaling the operation for a larger team.*
+- [ ] **SSO & RBAC**: Enterprise-grade authentication and role-based access control.
+- [ ] **Team Collaboration**: Shared chat sessions where multiple developers + AI can collaborate.
+- [ ] **Analytics & ROI**: Advanced dashboards showing time saved and value generated for clients.
+- [ ] **White-Labeling**: Ability to deploy branded versions of GOTI for specific enterprise clients.
 
 ## License
 
