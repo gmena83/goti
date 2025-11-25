@@ -1,8 +1,14 @@
 const fs = require('fs');
 const path = require('path');
 
-// Sample documents with recent changelog content
+// All documents to upload
 const documents = [
+    // Existing tool changelogs
+    {
+        title: "Lovable - Recent Updates",
+        source: "Lovable",
+        content: fs.readFileSync(path.join(__dirname, 'docs', 'sample-documents', 'lovable-changelog-nov-2024.md'), 'utf8')
+    },
     {
         title: "Zapier - Product Changelog 2024",
         source: "Zapier",
@@ -52,11 +58,42 @@ const documents = [
         title: "Antigravity - Initial Release",
         source: "Antigravity",
         content: fs.readFileSync(path.join(__dirname, 'docs', 'sample-documents', 'antigravity-changelog.md'), 'utf8')
+    },
+    // Programming language documentation
+    {
+        title: "Python - Core Language Reference",
+        source: "Python Documentation",
+        content: fs.readFileSync(path.join(__dirname, 'docs', 'sample-documents', 'python-reference.md'), 'utf8')
+    },
+    {
+        title: "SQL - Database Query Language",
+        source: "SQL Documentation",
+        content: fs.readFileSync(path.join(__dirname, 'docs', 'sample-documents', 'sql-reference.md'), 'utf8')
+    },
+    {
+        title: "TypeScript - Type-Safe JavaScript",
+        source: "TypeScript Documentation",
+        content: fs.readFileSync(path.join(__dirname, 'docs', 'sample-documents', 'typescript-reference.md'), 'utf8')
+    },
+    {
+        title: "Speed & Optimization Languages",
+        source: "Performance Documentation",
+        content: fs.readFileSync(path.join(__dirname, 'docs', 'sample-documents', 'optimization-languages.md'), 'utf8')
+    },
+    {
+        title: "Interaction & Control - AI Communication",
+        source: "AI Interaction Documentation",
+        content: fs.readFileSync(path.join(__dirname, 'docs', 'sample-documents', 'interaction-control.md'), 'utf8')
+    },
+    {
+        title: "AI Architecture Patterns",
+        source: "AI Architecture Documentation",
+        content: fs.readFileSync(path.join(__dirname, 'docs', 'sample-documents', 'ai-architecture-patterns.md'), 'utf8')
     }
 ];
 
 async function uploadAll() {
-    console.log('🚀 Starting bulk document upload...\n');
+    console.log('🚀 Starting comprehensive knowledge base upload...\n');
 
     const results = [];
     for (const doc of documents) {
@@ -89,7 +126,9 @@ async function uploadAll() {
 
     console.log('\n📊 Upload Summary:');
     const successful = results.filter(r => r.success).length;
+    const totalChunks = results.filter(r => r.success).reduce((sum, r) => sum + r.chunks, 0);
     console.log(`   ✅ Successful: ${successful}/${results.length}`);
+    console.log(`   📦 Total Chunks: ${totalChunks}`);
     console.log(`   ❌ Failed: ${results.length - successful}`);
 
     console.log('\n📝 Details:');

@@ -12,7 +12,7 @@ Integrate Supabase to persist chat history. This involves setting up the Supabas
 
 ### Configuration
 #### [NEW] [.env.local]
-- Add `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`.
+- Add `https://ornzkcoaqbfrkcvdxweg.supabase.coL` and `sb_publishable_LcGb5QH4bdvBIgmmEuTJWA_qF6j08Ru`.
 
 ### Lib
 #### [NEW] [lib/supabase.ts](file:///c:/Menatech/Antigravity/goti/lib/supabase.ts)
