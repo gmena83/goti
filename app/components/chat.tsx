@@ -1,8 +1,10 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Send, Bot, User } from 'lucide-react';
+import { Send, Bot, User, RefreshCw, Wrench, Lightbulb, Bug } from 'lucide-react';
 import { cn } from '../../lib/utils';
+import QuickActionCard from './quick-action-card';
+
 
 interface Message {
     id: string;
@@ -112,17 +114,58 @@ export default function Chat() {
     };
 
     return (
-        <div className="flex flex-col h-[80vh] w-full max-w-2xl mx-auto border rounded-xl overflow-hidden bg-background shadow-lg">
-            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+        <div className="flex flex-col h-full w-full">
+            <div className="flex-1 overflow-y-auto p-6 space-y-4 custom-scrollbar">
                 {status === 'loading' ? (
                     <div className="flex flex-col items-center justify-center h-full text-muted-foreground">
                         <Bot className="w-12 h-12 mb-2 animate-pulse" />
                         <p>Loading chat history...</p>
                     </div>
                 ) : messages.length === 0 ? (
-                    <div className="flex flex-col items-center justify-center h-full text-muted-foreground">
-                        <Bot className="w-12 h-12 mb-2" />
-                        <p>Hello! I'm GOTI. How can I help you today?</p>
+                    <div className="flex flex-col items-center justify-center h-full max-w-4xl mx-auto w-full">
+                        {/* Welcome Message */}
+                        <div className="text-center mb-12 animate-fade-in">
+                            <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
+                                <Bot className="w-8 h-8 text-primary" />
+                            </div>
+                            <h1 className="text-3xl font-bold text-foreground mb-2">
+                                How can I orchestrate your workflow today?
+                            </h1>
+                            <p className="text-muted-foreground">
+                                GOTI - Generative Orchestrator of Technological Innovation
+                            </p>
+                            <p className="text-sm text-muted-foreground mt-1">
+                                Expert guidance on frameworks, tools, and best practices
+                            </p>
+                        </div>
+
+                        {/* Quick Action Cards */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-3xl">
+                            <QuickActionCard
+                                icon={RefreshCw}
+                                title="Analyze React Update"
+                                description="Explain the latest React updates and how they affect my project"
+                                onClick={() => setInput("Explain the latest React updates and how they affect my project")}
+                            />
+                            <QuickActionCard
+                                icon={Wrench}
+                                title="Refactor Workflow"
+                                description="Help me refactor this codebase for better performance"
+                                onClick={() => setInput("Help me refactor this codebase for better performance")}
+                            />
+                            <QuickActionCard
+                                icon={Lightbulb}
+                                title="Explain Concept"
+                                description="Break down Server Components vs Client Components"
+                                onClick={() => setInput("Break down Server Components vs Client Components")}
+                            />
+                            <QuickActionCard
+                                icon={Bug}
+                                title="Debug Issue"
+                                description="Help me debug this TypeScript type error"
+                                onClick={() => setInput("Help me debug this TypeScript type error")}
+                            />
+                        </div>
                     </div>
                 ) : (
                     <>
@@ -130,22 +173,22 @@ export default function Chat() {
                             <div
                                 key={m.id}
                                 className={cn(
-                                    "flex w-full",
+                                    "flex w-full animate-fade-in",
                                     m.role === 'user' ? "justify-end" : "justify-start"
                                 )}
                             >
                                 <div
                                     className={cn(
-                                        "flex items-start max-w-[80%] rounded-lg p-3",
+                                        "flex items-start max-w-[80%] rounded-lg p-4",
                                         m.role === 'user'
                                             ? "bg-primary text-primary-foreground"
-                                            : "bg-muted text-foreground"
+                                            : "glass text-foreground"
                                     )}
                                 >
-                                    <div className="mr-2 mt-1">
-                                        {m.role === 'user' ? <User size={16} /> : <Bot size={16} />}
+                                    <div className="mr-3 mt-1">
+                                        {m.role === 'user' ? <User size={18} /> : <Bot size={18} />}
                                     </div>
-                                    <div className="whitespace-pre-wrap">{m.content}</div>
+                                    <div className="whitespace-pre-wrap text-sm">{m.content}</div>
                                 </div>
                             </div>
                         ))}
@@ -153,19 +196,19 @@ export default function Chat() {
                 )}
                 {status === 'streaming' && (
                     <div className="flex justify-start w-full">
-                        <div className="bg-muted text-foreground rounded-lg p-3 flex items-center">
-                            <Bot size={16} className="mr-2 animate-spin" />
-                            <span className="animate-pulse">Thinking...</span>
+                        <div className="glass text-foreground rounded-lg p-4 flex items-center">
+                            <Bot size={18} className="mr-3 animate-spin" />
+                            <span className="animate-pulse text-sm">Thinking...</span>
                         </div>
                     </div>
                 )}
                 <div ref={messagesEndRef} />
             </div>
 
-            <form onSubmit={handleSubmit} className="p-4 border-t bg-background">
-                <div className="flex gap-2">
+            <form onSubmit={handleSubmit} className="p-6 border-t border-border bg-background">
+                <div className="flex gap-3 max-w-4xl mx-auto">
                     <input
-                        className="flex-1 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary bg-background text-foreground"
+                        className="flex-1 p-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-background text-foreground placeholder:text-muted-foreground"
                         value={input}
                         onChange={(e) => setInput(e.target.value)}
                         placeholder="Type your message..."
@@ -173,7 +216,7 @@ export default function Chat() {
                     <button
                         type="submit"
                         disabled={status === 'streaming' || !input.trim()}
-                        className="p-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 disabled:opacity-50 transition-colors"
+                        className="px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 disabled:opacity-50 transition-all hover:scale-105 active:scale-95 disabled:hover:scale-100"
                     >
                         <Send size={20} />
                     </button>
