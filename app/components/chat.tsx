@@ -21,7 +21,13 @@ interface SelectedFile {
     addToKB: boolean;
 }
 
-export default function Chat() {
+interface ChatProps {
+    chatId?: string | null;
+    projectName?: string;
+    onChatCreated?: (id: string) => void;
+}
+
+export default function Chat({ chatId, projectName, onChatCreated }: ChatProps) {
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState('');
     const [status, setStatus] = useState<'ready' | 'streaming' | 'loading'>('loading');
@@ -41,25 +47,38 @@ export default function Chat() {
     const fileInputRef = useRef<HTMLInputElement>(null);
     const imageInputRef = useRef<HTMLInputElement>(null);
 
-    // Load chat history on mount
+    // Load chat history based on chatId prop
     useEffect(() => {
         async function loadHistory() {
+            // If new chat with projectName, start fresh
+            if (!chatId && projectName) {
+                setMessages([]);
+                setStatus('ready');
+                return;
+            }
+
+            // If no chatId, load default history
+            const url = chatId
+                ? `/api/chat/history?chatId=${chatId}`
+                : '/api/chat/history';
+
             try {
-                const response = await fetch('/api/chat/history');
+                const response = await fetch(url);
                 if (response.ok) {
                     const data = await response.json();
-                    if (data.messages && data.messages.length > 0) {
-                        setMessages(data.messages);
-                    }
+                    setMessages(data.messages || []);
+                } else {
+                    setMessages([]);
                 }
             } catch (error) {
                 console.error('Error loading chat history:', error);
+                setMessages([]);
             } finally {
                 setStatus('ready');
             }
         }
         loadHistory();
-    }, []);
+    }, [chatId, projectName]);
 
     // Auto-scroll to bottom when messages change
     useEffect(() => {
