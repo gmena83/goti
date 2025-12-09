@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Send, Bot, User, RefreshCw, Wrench, Lightbulb, Bug, Paperclip, X, Mic, FileText, Loader2 } from 'lucide-react';
+import { Send, Bot, User, RefreshCw, Wrench, Lightbulb, Bug, Paperclip, X, Mic, FileText, Loader2, Image as ImageIcon } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import QuickActionCard from './quick-action-card';
 import MarkdownMessage from './markdown-message';
@@ -31,6 +31,7 @@ export default function Chat() {
     const abortControllerRef = useRef<AbortController | null>(null);
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const imageInputRef = useRef<HTMLInputElement>(null);
 
     // Load chat history on mount
     useEffect(() => {
@@ -102,6 +103,7 @@ export default function Chat() {
         }
         // Reset input
         if (fileInputRef.current) fileInputRef.current.value = '';
+        if (imageInputRef.current) imageInputRef.current.value = '';
     };
 
     const handlePaste = (e: React.ClipboardEvent) => {
@@ -377,13 +379,25 @@ export default function Chat() {
                     <div className="flex gap-3">
                         <button
                             type="button"
+                            onClick={() => imageInputRef.current?.click()}
+                            className={cn(
+                                "p-3 transition-colors rounded-lg hover:bg-muted",
+                                isUploading ? "opacity-50 cursor-not-allowed" : "text-muted-foreground hover:text-foreground"
+                            )}
+                            disabled={isUploading || isTranscribing}
+                            title="Upload Image"
+                        >
+                            <ImageIcon size={20} />
+                        </button>
+                        <button
+                            type="button"
                             onClick={() => fileInputRef.current?.click()}
                             className={cn(
                                 "p-3 transition-colors rounded-lg hover:bg-muted",
                                 isUploading ? "opacity-50 cursor-not-allowed" : "text-muted-foreground hover:text-foreground"
                             )}
                             disabled={isUploading || isTranscribing}
-                            title="Upload image or document"
+                            title="Upload Document (PDF, JSON, MD)"
                         >
                             <Paperclip size={20} />
                         </button>
@@ -402,9 +416,16 @@ export default function Chat() {
                         </button>
                         <input
                             type="file"
+                            ref={imageInputRef}
+                            onChange={handleFileSelect}
+                            accept="image/*"
+                            className="hidden"
+                        />
+                        <input
+                            type="file"
                             ref={fileInputRef}
                             onChange={handleFileSelect}
-                            accept="image/*,.pdf,.json,.md,.txt"
+                            accept=".pdf,.json,.md,.txt"
                             className="hidden"
                         />
                         <input

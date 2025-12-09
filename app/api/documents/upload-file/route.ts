@@ -5,7 +5,8 @@ import { processDocument } from '../../../../lib/document-processing';
 import { generateEmbeddings } from '../../../../lib/embeddings';
 import { generateDocumentId, generateChunkId } from '../../../../lib/utils/id-generator';
 // @ts-ignore
-const pdf = require('pdf-parse');
+import PDFParser from 'pdf2json';
+import type { PostgrestError } from '@supabase/supabase-js';
 
 export const maxDuration = 60;
 
@@ -26,12 +27,28 @@ export async function POST(req: NextRequest) {
         const fileType = file.type;
         const fileName = file.name;
 
+
+
         // Extract text based on file type
         if (fileType === 'application/pdf') {
             const arrayBuffer = await file.arrayBuffer();
             const buffer = Buffer.from(arrayBuffer);
-            const data = await pdf(buffer);
-            content = data.text;
+
+            content = await new Promise((resolve, reject) => {
+                const pdfParser = new PDFParser(null, true);
+
+                pdfParser.on("pdfParser_dataError", (errData: any) => {
+                    reject(new Error(errData.parserError));
+                });
+
+                pdfParser.on("pdfParser_dataReady", (pdfData: any) => {
+                    // getRawTextContent() returns text. 
+                    // Often it's better to just use the raw text if available.
+                    resolve(pdfParser.getRawTextContent());
+                });
+
+                pdfParser.parseBuffer(buffer);
+            });
         } else if (
             fileType === 'application/json' ||
             fileName.endsWith('.json')
