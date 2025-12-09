@@ -14,13 +14,21 @@ interface Message {
     image?: string | null;
 }
 
+interface SelectedFile {
+    name: string;
+    content: string;
+    type: string;
+    addToKB: boolean;
+}
+
 export default function Chat() {
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState('');
     const [status, setStatus] = useState<'ready' | 'streaming' | 'loading'>('loading');
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
+    const [selectedFile, setSelectedFile] = useState<SelectedFile | null>(null);
 
-    // New state for file uploads
+    // State for file upload operations
     const [isUploading, setIsUploading] = useState(false);
 
     const [isRecording, setIsRecording] = useState(false);
@@ -58,7 +66,7 @@ export default function Chat() {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [messages]);
 
-    // Handle File Upload (Documents -> RAG, Images -> Vision)
+    // Handle File Upload (Documents -> Preview, Images -> Vision)
     const handleFileUpload = async (file: File) => {
         if (file.type.startsWith('image/')) {
             const reader = new FileReader();
@@ -67,43 +75,21 @@ export default function Chat() {
             };
             reader.readAsDataURL(file);
         } else {
-            // It's a document (PDF, JSON, MD, TXT)
-            setIsUploading(true);
-            const formData = new FormData();
-            formData.append('file', file);
-            formData.append('source', 'User Upload');
-
-            // Create abort controller with timeout
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 60000); // 60s timeout
-
-            try {
-                const response = await fetch('/api/documents/upload-file', {
-                    method: 'POST',
-                    body: formData,
-                    signal: controller.signal,
+            // Read file content for preview (Gemini-style)
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                const content = reader.result as string;
+                setSelectedFile({
+                    name: file.name,
+                    content: content,
+                    type: file.type || 'text/plain',
+                    addToKB: false // Default to not adding to KB
                 });
-
-                clearTimeout(timeoutId);
-
-                if (!response.ok) {
-                    const result = await response.json().catch(() => ({ error: 'Unknown error' }));
-                    throw new Error(result.error || 'Failed to upload file');
-                }
-
-                const result = await response.json();
-                toast.success(`Indexed ${file.name} to Knowledge Base`);
-                setInput((prev) => prev + `\n[Context: I have uploaded ${file.name} for you to analyze]`);
-            } catch (error: any) {
-                console.error('Upload error:', error);
-                if (error.name === 'AbortError') {
-                    toast.error('Upload timed out. Please try again.');
-                } else {
-                    toast.error(`Failed to upload: ${error.message || 'Unknown error'}`);
-                }
-            } finally {
-                setIsUploading(false);
-            }
+            };
+            reader.onerror = () => {
+                toast.error('Failed to read file');
+            };
+            reader.readAsText(file);
         }
     };
 
@@ -192,18 +178,37 @@ export default function Chat() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if ((!input.trim() && !selectedImage) || status === 'streaming' || status === 'loading' || isTranscribing || isUploading) return;
+        if ((!input.trim() && !selectedImage && !selectedFile) || status === 'streaming' || status === 'loading' || isTranscribing || isUploading) return;
+
+        // Build message content with file context if present
+        let messageContent = input;
+        if (selectedFile) {
+            messageContent = `[File: ${selectedFile.name}]\n\n${selectedFile.content}\n\n---\n\n${input}`;
+
+            // If KB checkbox is checked, index the file in background
+            if (selectedFile.addToKB) {
+                const formData = new FormData();
+                const blob = new Blob([selectedFile.content], { type: selectedFile.type });
+                formData.append('file', blob, selectedFile.name);
+                formData.append('source', 'User Upload');
+
+                fetch('/api/documents/upload-file', { method: 'POST', body: formData })
+                    .then(res => res.ok ? toast.success(`Added ${selectedFile.name} to Knowledge Base`) : toast.error('Failed to add to KB'))
+                    .catch(() => toast.error('Failed to add to KB'));
+            }
+        }
 
         const userMessage: Message = {
             id: crypto.randomUUID(),
             role: 'user',
-            content: input,
+            content: messageContent,
             image: selectedImage
         };
 
         setMessages((prev) => [...prev, userMessage]);
         setInput('');
         setSelectedImage(null);
+        setSelectedFile(null);
         setStatus('streaming');
 
         const abortController = new AbortController();
@@ -386,6 +391,30 @@ export default function Chat() {
                             >
                                 <X size={12} />
                             </button>
+                        </div>
+                    )}
+                    {selectedFile && (
+                        <div className="mb-4 flex items-center gap-3 animate-fade-in">
+                            <div className="flex items-center gap-2 bg-muted rounded-lg px-3 py-2 border border-border">
+                                <FileText size={18} className="text-primary" />
+                                <span className="text-sm font-medium truncate max-w-[200px]">{selectedFile.name}</span>
+                                <button
+                                    type="button"
+                                    onClick={() => setSelectedFile(null)}
+                                    className="ml-1 text-muted-foreground hover:text-foreground transition-colors"
+                                >
+                                    <X size={14} />
+                                </button>
+                            </div>
+                            <label className="flex items-center gap-2 text-sm text-muted-foreground cursor-pointer hover:text-foreground">
+                                <input
+                                    type="checkbox"
+                                    checked={selectedFile.addToKB}
+                                    onChange={(e) => setSelectedFile({ ...selectedFile, addToKB: e.target.checked })}
+                                    className="w-4 h-4 rounded border-border text-primary focus:ring-primary"
+                                />
+                                Add to KB
+                            </label>
                         </div>
                     )}
                     <div className="flex gap-3">
