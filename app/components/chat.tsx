@@ -1,10 +1,11 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Send, Bot, User, RefreshCw, Wrench, Lightbulb, Bug, Paperclip, X, Mic } from 'lucide-react';
+import { Send, Bot, User, RefreshCw, Wrench, Lightbulb, Bug, Paperclip, X, Mic, FileText, Loader2 } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import QuickActionCard from './quick-action-card';
 import MarkdownMessage from './markdown-message';
+import { toast } from 'sonner';
 
 interface Message {
     id: string;
@@ -18,6 +19,9 @@ export default function Chat() {
     const [input, setInput] = useState('');
     const [status, setStatus] = useState<'ready' | 'streaming' | 'loading'>('loading');
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
+    // New state for file uploads
+    const [isUploading, setIsUploading] = useState(false);
 
     const [isRecording, setIsRecording] = useState(false);
     const [isTranscribing, setIsTranscribing] = useState(false);
@@ -53,14 +57,63 @@ export default function Chat() {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [messages]);
 
-    const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (file) {
+    // Handle File Upload (Documents -> RAG, Images -> Vision)
+    const handleFileUpload = async (file: File) => {
+        if (file.type.startsWith('image/')) {
             const reader = new FileReader();
             reader.onloadend = () => {
                 setSelectedImage(reader.result as string);
             };
             reader.readAsDataURL(file);
+        } else {
+            // It's a document (PDF, JSON, MD, TXT)
+            setIsUploading(true);
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('source', 'User Upload');
+
+            try {
+                const response = await fetch('/api/documents/upload-file', {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(result.error || 'Failed to upload file');
+                }
+
+                toast.success(`Indexed ${file.name} to Knowledge Base`);
+                setInput((prev) => prev + `\n[Context: I have uploaded ${file.name} for you to analyze]`);
+            } catch (error) {
+                console.error('Upload error:', error);
+                toast.error('Failed to upload document');
+            } finally {
+                setIsUploading(false);
+            }
+        }
+    };
+
+    const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            handleFileUpload(file);
+        }
+        // Reset input
+        if (fileInputRef.current) fileInputRef.current.value = '';
+    };
+
+    const handlePaste = (e: React.ClipboardEvent) => {
+        const items = e.clipboardData.items;
+        for (const item of items) {
+            if (item.kind === 'file') {
+                const file = item.getAsFile();
+                if (file) {
+                    handleFileUpload(file);
+                    e.preventDefault(); // Prevent default paste behavior for files
+                }
+            }
         }
     };
 
@@ -126,7 +179,7 @@ export default function Chat() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if ((!input.trim() && !selectedImage) || status === 'streaming' || status === 'loading' || isTranscribing) return;
+        if ((!input.trim() && !selectedImage) || status === 'streaming' || status === 'loading' || isTranscribing || isUploading) return;
 
         const userMessage: Message = {
             id: crypto.randomUUID(),
@@ -166,7 +219,7 @@ export default function Chat() {
 
             const reader = response.body.getReader();
             const decoder = new TextDecoder();
-            let assistantMessage: Message = {
+            const assistantMessage: Message = {
                 id: crypto.randomUUID(),
                 role: 'assistant',
                 content: '',
@@ -180,7 +233,6 @@ export default function Chat() {
 
                 const chunk = decoder.decode(value, { stream: true });
 
-                // Raw text stream handling
                 assistantMessage.content += chunk;
                 setMessages((prev) => {
                     const newMessages = [...prev];
@@ -296,6 +348,15 @@ export default function Chat() {
                         </div>
                     </div>
                 )}
+                {/* Upload Indicator */}
+                {isUploading && (
+                    <div className="flex justify-center w-full animate-fade-in">
+                        <div className="bg-muted text-muted-foreground text-sm rounded-full px-4 py-2 flex items-center shadow-sm">
+                            <Loader2 size={14} className="mr-2 animate-spin" />
+                            Indexing document...
+                        </div>
+                    </div>
+                )}
                 <div ref={messagesEndRef} />
             </div>
 
@@ -317,8 +378,12 @@ export default function Chat() {
                         <button
                             type="button"
                             onClick={() => fileInputRef.current?.click()}
-                            className="p-3 text-muted-foreground hover:text-foreground transition-colors rounded-lg hover:bg-muted"
-                            title="Upload image"
+                            className={cn(
+                                "p-3 transition-colors rounded-lg hover:bg-muted",
+                                isUploading ? "opacity-50 cursor-not-allowed" : "text-muted-foreground hover:text-foreground"
+                            )}
+                            disabled={isUploading || isTranscribing}
+                            title="Upload image or document"
                         >
                             <Paperclip size={20} />
                         </button>
@@ -328,9 +393,9 @@ export default function Chat() {
                             className={cn(
                                 "p-3 transition-colors rounded-lg hover:bg-muted",
                                 isRecording ? "text-red-500 animate-pulse" : "text-muted-foreground hover:text-foreground",
-                                isTranscribing && "opacity-50 cursor-not-allowed"
+                                (isTranscribing || isUploading) && "opacity-50 cursor-not-allowed"
                             )}
-                            disabled={isTranscribing}
+                            disabled={isTranscribing || isUploading}
                             title={isRecording ? "Stop recording" : "Start recording"}
                         >
                             <Mic size={20} />
@@ -338,20 +403,21 @@ export default function Chat() {
                         <input
                             type="file"
                             ref={fileInputRef}
-                            onChange={handleImageSelect}
-                            accept="image/*"
+                            onChange={handleFileSelect}
+                            accept="image/*,.pdf,.json,.md,.txt"
                             className="hidden"
                         />
                         <input
                             className="flex-1 p-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-background text-foreground placeholder:text-muted-foreground"
                             value={isTranscribing ? "Transcribing..." : input}
                             onChange={(e) => setInput(e.target.value)}
-                            placeholder="Type your message..."
-                            disabled={isTranscribing}
+                            onPaste={handlePaste}
+                            placeholder="Type a message or paste an image/file..."
+                            disabled={isTranscribing || isUploading}
                         />
                         <button
                             type="submit"
-                            disabled={status === 'streaming' || (!input.trim() && !selectedImage) || isTranscribing}
+                            disabled={status === 'streaming' || (!input.trim() && !selectedImage) || isTranscribing || isUploading}
                             className="px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 disabled:opacity-50 transition-all hover:scale-105 active:scale-95 disabled:hover:scale-100"
                         >
                             <Send size={20} />

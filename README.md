@@ -98,8 +98,14 @@ Simply type your questions in the chat interface. GOTI will:
 3. Cite sources when using knowledge base content
 
 ### Uploading Documents
+GOTI supports uploading documents (PDF, JSON, Markdown, Text) directly via the Chat UI or API. These documents are indexed into the Knowledge Base (RAG) for future context.
 
-**Via Browser Console:**
+**Via Chat UI:**
+- Click the Paperclip icon
+- Or **Paste (Ctrl+V)** a file directly into the chat input
+- Or **Drag & Drop** a file
+
+
 ```javascript
 fetch('/api/documents/upload', {
     method: 'POST',
@@ -137,7 +143,8 @@ goti/
 │   ├── api/
 │   │   ├── chat/route.ts          # Chat API with RAG integration
 │   │   ├── documents/
-│   │   │   ├── upload/route.ts    # Document upload & processing
+│   │   │   ├── upload/route.ts    # JSON document upload
+│   │   │   ├── upload-file/route.ts # File (PDF, JSON, MD) upload & parsing
 │   │   │   ├── list/route.ts      # List all documents
 │   │   │   └── delete/route.ts    # Delete documents
 │   │   └── health/route.ts        # System health check
@@ -148,7 +155,8 @@ goti/
 │   ├── supabase.ts                # Supabase client
 │   ├── embeddings.ts              # OpenAI embeddings utilities
 │   ├── document-processing.ts     # Text chunking & processing
-│   └── vector-search.ts           # Semantic search functions
+│   ├── vector-search.ts           # Semantic search functions
+│   └── metrics-service.ts         # Analytics & usage tracking
 ├── supabase/
 │   └── schema.sql                 # Database schema with pgvector
 └── docs/
@@ -158,13 +166,25 @@ goti/
 
 ## How RAG Works
 
-1. **Document Upload**: Documents are split into chunks using RecursiveCharacterTextSplitter
-2. **Embedding Generation**: Each chunk is converted to a 1536-dimensional vector using OpenAI's text-embedding-3-small
-3. **Storage**: Chunks and embeddings are stored in Supabase with pgvector
-4. **Query Processing**: User questions are converted to embeddings
-5. **Similarity Search**: pgvector finds the most relevant chunks using cosine similarity
-6. **Context Injection**: Retrieved chunks are added to the system prompt
-7. **Response Generation**: GPT-4 generates answers using the provided context
+## How RAG Works
+
+```mermaid
+graph TD
+    A[User Query] -->|Type Message| B(Chat UI)
+    B -->|POST /api/chat| C{Checks}
+    C -->|Rate Limit| D[API Route]
+    D -->|Generate Embedding| E[OpenAI Embedding API]
+    E -->|Vector| F[(Supabase pgvector)]
+    F -->|Similar Chunks| G[Context Assembly]
+    G -->|System Prompt + Context| H[OpenAI GPT-4o]
+    H -->|Stream Response| B
+```
+
+1. **Document Upload**: Documents are split into chunks using `RecursiveCharacterTextSplitter`.
+2. **Embedding Generation**: Each chunk is converted to a 1536-dimensional vector.
+3. **Storage**: Chunks and embeddings are stored in Supabase.
+4. **Retrieval**: User queries trigger detailed vector similarity search.
+5. **Generation**: GPT-4o synthesizes the answer using the retrieved context.
 
 ## Development
 

@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import animate from "tailwindcss-animate";
 
 const config: Config = {
   darkMode: ["class"],
@@ -114,6 +115,7 @@ const config: Config = {
           },
           "50%": {
             opacity: "0.5",
+            transform: "scale(1)",
           },
         },
         "slide-in-left": {
@@ -134,6 +136,6 @@ const config: Config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [animate],
 };
 export default config;

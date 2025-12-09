@@ -25,7 +25,9 @@ export async function getMetrics(): Promise<Metrics> {
         const { data: messages } = await supabase
             .from('messages')
             .select('content, role')
-            .eq('role', 'assistant');
+            .eq('role', 'assistant')
+            .order('created_at', { ascending: false })
+            .limit(500); // Limit analysis to recent messages to prevent OOM
 
         // Calculate code metrics from messages
         let linesOfCode = 0;
