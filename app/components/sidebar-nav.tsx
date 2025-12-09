@@ -2,12 +2,16 @@
 
 import { Plus, Library, Eye, Settings, LogOut } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import type { ViewType } from './home-client';
 
 interface SidebarNavProps {
     onNewChat?: () => void;
+    onViewChange?: (view: ViewType) => void;
+    onChatSelect?: (chatId: string) => void;
+    currentView?: ViewType;
 }
 
-export default function SidebarNav({ onNewChat }: SidebarNavProps) {
+export default function SidebarNav({ onNewChat, onViewChange, onChatSelect, currentView = 'chat' }: SidebarNavProps) {
     return (
         <div className="flex flex-col h-full">
             {/* Header */}
@@ -34,11 +38,27 @@ export default function SidebarNav({ onNewChat }: SidebarNavProps) {
 
             {/* Navigation Links */}
             <nav className="px-3 py-2 space-y-1">
-                <button className="w-full flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-sidebar-accent text-sidebar-foreground transition-colors">
+                <button
+                    onClick={() => onViewChange?.('library')}
+                    className={cn(
+                        "w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors",
+                        currentView === 'library'
+                            ? "bg-sidebar-accent text-sidebar-foreground"
+                            : "hover:bg-sidebar-accent text-sidebar-foreground"
+                    )}
+                >
                     <Library size={18} />
                     <span className="text-sm">Library</span>
                 </button>
-                <button className="w-full flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-sidebar-accent text-sidebar-foreground transition-colors">
+                <button
+                    onClick={() => onViewChange?.('toolwatch')}
+                    className={cn(
+                        "w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors",
+                        currentView === 'toolwatch'
+                            ? "bg-sidebar-accent text-sidebar-foreground"
+                            : "hover:bg-sidebar-accent text-sidebar-foreground"
+                    )}
+                >
                     <Eye size={18} />
                     <span className="text-sm">Tool Watch</span>
                 </button>
