@@ -101,9 +101,10 @@ Simply type your questions in the chat interface. GOTI will:
 GOTI supports uploading documents (PDF, JSON, Markdown, Text) directly via the Chat UI or API. These documents are indexed into the Knowledge Base (RAG) for future context.
 
 **Via Chat UI:**
-- Click the Paperclip icon
-- Or **Paste (Ctrl+V)** a file directly into the chat input
-- Or **Drag & Drop** a file
+- **🖼️ Image Icon**: Upload images for visual analysis (GPT-4o Vision).
+- **📎 Paperclip Icon**: Upload documents (PDF, JSON, MD, TXT) to the Knowledge Base (RAG).
+- **Paste (Ctrl+V)**: Works for both images and files directly in the chat input.
+- **Drag & Drop**: profound support for dragging files into the window.
 
 
 ```javascript
@@ -246,7 +247,7 @@ To transform GOTI into a key ally for your AI Consultancy, Education, and Develo
 *Focus: Increasing the depth and freshness of technical knowledge.*
 - [ ] **Automated Changelog Scraping**: Implement n8n workflows to daily scrape and update documentation for tracked tools.
 - [x] **Multi-Modal Input**: Allow users to upload screenshots of UI/code for analysis (using GPT-4o Vision).
-- [ ] **Expanded Knowledge Base**: Add architectural patterns, system design docs, and "Vibecoding" best practices.
+- [x] **Expanded Knowledge Base**: Added support for uploading local documents (PDF, JSON, MD) to expand knowledge dynamically.
 - [x] **Voice Interface**: Enable voice-to-text for "walking and talking" coding sessions.
 
 ### Phase 2: Client & Project Management (The "Business") 💼
