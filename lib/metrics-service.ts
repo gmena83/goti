@@ -11,9 +11,9 @@ export interface Metrics {
 
 export async function getMetrics(): Promise<Metrics> {
     try {
-        // Get total conversations
+        // Get total conversations (chats)
         const { count: conversationCount } = await supabase
-            .from('conversations')
+            .from('chats')
             .select('*', { count: 'exact', head: true });
 
         // Get total messages
