@@ -73,23 +73,34 @@ export default function Chat() {
             formData.append('file', file);
             formData.append('source', 'User Upload');
 
+            // Create abort controller with timeout
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 60000); // 60s timeout
+
             try {
                 const response = await fetch('/api/documents/upload-file', {
                     method: 'POST',
                     body: formData,
+                    signal: controller.signal,
                 });
 
-                const result = await response.json();
+                clearTimeout(timeoutId);
 
                 if (!response.ok) {
+                    const result = await response.json().catch(() => ({ error: 'Unknown error' }));
                     throw new Error(result.error || 'Failed to upload file');
                 }
 
+                const result = await response.json();
                 toast.success(`Indexed ${file.name} to Knowledge Base`);
                 setInput((prev) => prev + `\n[Context: I have uploaded ${file.name} for you to analyze]`);
-            } catch (error) {
+            } catch (error: any) {
                 console.error('Upload error:', error);
-                toast.error('Failed to upload document');
+                if (error.name === 'AbortError') {
+                    toast.error('Upload timed out. Please try again.');
+                } else {
+                    toast.error(`Failed to upload: ${error.message || 'Unknown error'}`);
+                }
             } finally {
                 setIsUploading(false);
             }

@@ -7,7 +7,7 @@ import { getOrCreateChatSession } from '../../../lib/auth/session';
 import { validateChatRequest } from '../../../lib/middleware/validation';
 import { checkRateLimit, getRateLimitHeaders } from '../../../lib/middleware/rate-limit';
 
-export const maxDuration = 30;
+export const maxDuration = 60; // Allow longer responses
 
 export async function POST(req: Request) {
     try {
