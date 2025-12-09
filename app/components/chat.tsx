@@ -244,6 +244,7 @@ export default function Chat() {
             }
         } catch (error) {
             console.error('Error sending message:', error);
+            toast.error('Failed to send message. Please check the console for details.');
         } finally {
             setStatus('ready');
             abortControllerRef.current = null;
