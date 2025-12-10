@@ -6,10 +6,12 @@ export const dynamic = 'force-dynamic';
 
 export async function GET(req: NextRequest) {
     try {
-        // Get the current session's chat ID
-        const chatId = await getOrCreateChatSession();
+        // Check for explicit chatId in query param, otherwise use session
+        const { searchParams } = new URL(req.url);
+        const queryChatId = searchParams.get('chatId');
+        const chatId = queryChatId || await getOrCreateChatSession();
 
-        // Fetch messages for this chat session
+        // Fetch messages for this chat
         const { data: messages, error } = await supabase
             .from('messages')
             .select('id, role, content, created_at')

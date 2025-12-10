@@ -202,7 +202,15 @@ export default function Chat({ chatId, projectName, onChatCreated }: ChatProps) 
         // Build message content with file context if present
         let messageContent = input;
         if (selectedFile) {
-            messageContent = `[File: ${selectedFile.name}]\n\n${selectedFile.content}\n\n---\n\n${input}`;
+            // Limit file content to prevent context overflow (max 5000 chars)
+            const maxContentLength = 5000;
+            let fileContent = selectedFile.content;
+            let truncatedNote = '';
+            if (fileContent.length > maxContentLength) {
+                fileContent = fileContent.slice(0, maxContentLength);
+                truncatedNote = `\n\n[Note: File content truncated to ${maxContentLength} characters. Full file has ${selectedFile.content.length} characters.]`;
+            }
+            messageContent = `[File: ${selectedFile.name}]\n\n${fileContent}${truncatedNote}\n\n---\n\n${input}`;
 
             // If KB checkbox is checked, index the file in background
             if (selectedFile.addToKB) {
