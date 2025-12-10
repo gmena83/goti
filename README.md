@@ -1,19 +1,25 @@
 # GOTI - Generative Orchestrator of Technological Innovation
 
-An AI assistant powered by OpenAI GPT-4 with RAG (Retrieval-Augmented Generation) capabilities, designed to help with vibecoding projects by providing context-aware responses from a knowledge base of tool documentation and changelogs.
+An AI assistant powered by **OpenAI GPT-5.1** with RAG (Retrieval-Augmented Generation) capabilities, designed to help with vibecoding projects by providing context-aware responses from a knowledge base of tool documentation and changelogs.
 
 ## Features
 
 ### Core Functionality
-- 🤖 **AI Chat Interface**: Real-time streaming chat powered by OpenAI GPT-4o
+
+- 🤖 **AI Chat Interface**: Real-time streaming chat powered by OpenAI GPT-5.1
 - 📚 **RAG System**: Semantic search over documentation using vector embeddings
 - 💾 **Persistent Storage**: Chat history and documents stored in Supabase
 - 📊 **Real Metrics Dashboard**: Live tracking of conversations, lines of code generated, and bugs found
 - 🎨 **Enhanced Styling**: Beautiful markdown rendering with syntax highlighting and copy functionality
 - 📱 **Mobile Responsive**: Native-app like experience on iOS and Android
+- 📎 **Gemini-style File Attachments**: Attach files to chat with optional Knowledge Base indexing
+- 📁 **Project-based Conversations**: Named projects with sidebar history (last 5 + older)
+- 🔧 **Tool Watch Panel**: Live npm version tracking for AI/automation tools
 
 ### Knowledge Base Coverage
+
 GOTI maintains up-to-date knowledge of:
+
 - **Lovable** - AI-powered full-stack development platform
 - **Zapier** - Workflow automation
 - **Activepieces** - Open-source automation
@@ -25,10 +31,10 @@ GOTI maintains up-to-date knowledge of:
 ## Tech Stack
 
 - **Frontend**: Next.js 16 (App Router), React, TypeScript
-- **AI**: OpenAI GPT-4o, Vercel AI SDK
+- **AI**: OpenAI GPT-5.1, Vercel AI SDK
 - **Database**: Supabase (PostgreSQL + pgvector)
 - **RAG**: LangChain for document processing and embeddings
-- **Styling**: Tailwind CSS, Shadcn/UI, Phosphor Icons
+- **Styling**: Tailwind CSS, Shadcn/UI, Lucide Icons
 - **Deployment**: Vercel
 
 ## Prerequisites
@@ -63,6 +69,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 ```
 
 **Security Notes**:
+
 - The `NEXT_PUBLIC_` prefix exposes variables to the client-side
 - The Supabase anon key is safe to expose as it's protected by Row Level Security (RLS) policies
 - Never commit `.env.local` to version control (it's in `.gitignore`)
@@ -75,6 +82,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 3. Run the entire contents of `supabase/schema.sql`
 
 This will:
+
 - Enable the pgvector extension
 - Create `chats`, `messages`, `documents`, and `document_chunks` tables
 - Set up the `match_document_chunks` function for vector similarity search
@@ -93,19 +101,21 @@ Open [http://localhost:3000](http://localhost:3000) to see the application.
 ### Chat Interface
 
 Simply type your questions in the chat interface. GOTI will:
+
 1. Search the knowledge base for relevant context
 2. Use retrieved information to provide accurate answers
 3. Cite sources when using knowledge base content
 
 ### Uploading Documents
+
 GOTI supports uploading documents (PDF, JSON, Markdown, Text) directly via the Chat UI or API. These documents are indexed into the Knowledge Base (RAG) for future context.
 
 **Via Chat UI:**
+
 - **🖼️ Image Icon**: Upload images for visual analysis (GPT-4o Vision).
 - **📎 Paperclip Icon**: Upload documents (PDF, JSON, MD, TXT) to the Knowledge Base (RAG).
 - **Paste (Ctrl+V)**: Works for both images and files directly in the chat input.
 - **Drag & Drop**: profound support for dragging files into the window.
-
 
 ```javascript
 fetch('/api/documents/upload', {
@@ -120,6 +130,7 @@ fetch('/api/documents/upload', {
 ```
 
 **Via API:**
+
 ```bash
 curl -X POST http://localhost:3000/api/documents/upload \
   -H "Content-Type: application/json" \
@@ -208,6 +219,7 @@ graph TD
 ### Build Errors with LangChain
 
 If you see module resolution errors:
+
 ```bash
 npm install @langchain/core @langchain/textsplitters --legacy-peer-deps
 ```
@@ -244,28 +256,36 @@ Verify your Supabase credentials in `.env.local` and ensure the schema has been 
 To transform GOTI into a key ally for your AI Consultancy, Education, and Development business, we propose the following evolutionary phases:
 
 ### Phase 1: Knowledge Expansion & Automation (The "Brain") 🧠
+
 *Focus: Increasing the depth and freshness of technical knowledge.*
+
 - [ ] **Automated Changelog Scraping**: Implement n8n workflows to daily scrape and update documentation for tracked tools.
 - [x] **Multi-Modal Input**: Allow users to upload screenshots of UI/code for analysis (using GPT-4o Vision).
 - [x] **Expanded Knowledge Base**: Added support for uploading local documents (PDF, JSON, MD) to expand knowledge dynamically.
 - [x] **Voice Interface**: Enable voice-to-text for "walking and talking" coding sessions.
 
 ### Phase 2: Client & Project Management (The "Business") 💼
+
 *Focus: Managing multiple clients and projects efficiently.*
+
 - [ ] **Multi-Tenant Support**: Separate chat history and knowledge bases per client/project.
 - [ ] **Context Injection**: Upload specific client requirements or brand guidelines to guide AI responses.
 - [ ] **Automated Reporting**: Generate weekly summaries of development progress, bugs fixed, and features built.
 - [ ] **Consultancy Dashboard**: Admin view to see usage stats across all client projects.
 
 ### Phase 3: Advanced Agentic Capabilities (The "Workforce") 🤖
+
 *Focus: Moving from "Assistant" to "Agent" that performs tasks.*
+
 - [ ] **Code Generation Agents**: Allow GOTI to write files directly to GitHub repositories via PRs.
 - [ ] **Testing Agents**: Automatically generate and run test cases for generated code.
 - [ ] **Deployment Agents**: Trigger deployments or infrastructure changes via natural language.
 - [ ] **Tool Use**: Give GOTI access to linear/Jira to create tickets from chat.
 
 ### Phase 4: Enterprise Integration & Scale (The "Empire") 🏢
+
 *Focus: Scaling the operation for a larger team.*
+
 - [ ] **SSO & RBAC**: Enterprise-grade authentication and role-based access control.
 - [ ] **Team Collaboration**: Shared chat sessions where multiple developers + AI can collaborate.
 - [ ] **Analytics & ROI**: Advanced dashboards showing time saved and value generated for clients.
