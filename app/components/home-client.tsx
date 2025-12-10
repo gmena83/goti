@@ -5,10 +5,11 @@ import Chat from './chat';
 import SidebarNav from './sidebar-nav';
 import MetricsBar from './metrics-bar';
 import ToolWatchPanel from './tool-watch-panel';
+import JulesPanel from './jules-panel';
 import AppLayout from './app-layout';
 import { X } from 'lucide-react';
 
-export type ViewType = 'chat' | 'library' | 'toolwatch';
+export type ViewType = 'chat' | 'library' | 'toolwatch' | 'jules';
 
 export default function HomeClient() {
     const [currentView, setCurrentView] = useState<ViewType>('chat');
@@ -60,7 +61,7 @@ export default function HomeClient() {
                         onShowAllProjects={handleShowAllProjects}
                     />
                 }
-                toolWatch={<ToolWatchPanel />}
+                toolWatch={<JulesPanel />}
             >
                 <MetricsBar />
                 <div className="flex-1 overflow-hidden">
@@ -92,10 +93,15 @@ export default function HomeClient() {
                     )}
                     {currentView === 'toolwatch' && (
                         <div className="h-full flex items-center justify-center">
+                            <ToolWatchPanel />
+                        </div>
+                    )}
+                    {currentView === 'jules' && (
+                        <div className="h-full flex items-center justify-center">
                             <div className="text-center p-8">
-                                <h2 className="text-2xl font-bold mb-4">Tool Watch</h2>
+                                <h2 className="text-2xl font-bold mb-4">Jules Agent</h2>
                                 <p className="text-muted-foreground">
-                                    Tool updates are displayed in the right panel.
+                                    Jules sessions are displayed in the right panel.
                                 </p>
                             </div>
                         </div>

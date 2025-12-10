@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Plus, Library, Eye, Settings, LogOut, MessageSquare, ChevronRight, Loader2 } from 'lucide-react';
+import { Plus, Library, Eye, Settings, LogOut, MessageSquare, ChevronRight, Loader2, Bot } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { ViewType } from './home-client';
 
@@ -109,6 +109,18 @@ export default function SidebarNav({
                 >
                     <Eye size={18} />
                     <span className="text-sm">Tool Watch</span>
+                </button>
+                <button
+                    onClick={() => onViewChange?.('jules')}
+                    className={cn(
+                        "w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors",
+                        currentView === 'jules'
+                            ? "bg-sidebar-accent text-sidebar-foreground"
+                            : "hover:bg-sidebar-accent text-sidebar-foreground"
+                    )}
+                >
+                    <Bot size={18} />
+                    <span className="text-sm">Jules Agent</span>
                 </button>
             </nav>
 
