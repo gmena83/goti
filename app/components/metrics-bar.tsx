@@ -18,6 +18,9 @@ interface MetricsData {
     bugsFound: number;
     hoursVibecoding: number;
     trackedTools: number;
+    apiCalls: number;
+    tokensUsed: number;
+    interactions: number;
 }
 
 export default function MetricsBar() {
@@ -43,6 +46,30 @@ export default function MetricsBar() {
 
     const metrics: Metric[] = [
         {
+            icon: <Rocket size={20} />,
+            value: loading ? '...' : String(metricsData?.apiCalls || 0),
+            label: 'API Calls',
+            color: 'text-green-400',
+        },
+        {
+            icon: <MessageSquare size={20} />,
+            value: loading ? '...' : String(metricsData?.tokensUsed?.toLocaleString() || '0'),
+            label: 'Tokens Used',
+            color: 'text-pink-400',
+        },
+        {
+            icon: <Eye size={20} />,
+            value: loading ? '...' : String(metricsData?.interactions?.toLocaleString() || '0'),
+            label: 'Interactions',
+            color: 'text-cyan-400',
+        },
+        {
+            icon: <Clock size={20} />,
+            value: loading ? '...' : String(metricsData?.hoursVibecoding || 0),
+            label: 'Hours Vibecoding',
+            color: 'text-purple-400',
+        },
+        {
             icon: <Code size={20} />,
             value: loading ? '...' : metricsData?.linesOfCode.toLocaleString() || '0',
             label: 'Lines of Code',
@@ -53,30 +80,6 @@ export default function MetricsBar() {
             value: loading ? '...' : String(metricsData?.bugsFound || 0),
             label: 'Bugs Found',
             color: 'text-red-400',
-        },
-        {
-            icon: <Rocket size={20} />,
-            value: loading ? '...' : String(metricsData?.totalConversations || 0),
-            label: 'Conversations',
-            color: 'text-green-400',
-        },
-        {
-            icon: <Clock size={20} />,
-            value: loading ? '...' : String(metricsData?.hoursVibecoding || 0),
-            label: 'Hours Vibecoding',
-            color: 'text-purple-400',
-        },
-        {
-            icon: <MessageSquare size={20} />,
-            value: loading ? '...' : String(metricsData?.totalMessages || 0),
-            label: 'Messages',
-            color: 'text-pink-400',
-        },
-        {
-            icon: <Eye size={20} />,
-            value: loading ? '...' : String(metricsData?.trackedTools || 0),
-            label: 'Tracked',
-            color: 'text-cyan-400',
         },
     ];
 

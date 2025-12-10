@@ -22,10 +22,13 @@ export async function POST(req: Request) {
             });
         }
 
-        // Get or create chat session
-        const chatId = await getOrCreateChatSession();
+        const { messages, image, projectName, chatId: bodyChatId } = body;
 
-        // Rate limiting (20 requests per minute per session)
+        // Use provided chatId (continuation) or generate new one (new project)
+        // We do NOT use getOrCreateChatSession() here as it ties everything to a single cookie session
+        const chatId = bodyChatId || generateMessageId(); // Re-use generateMessageId for UUID
+
+        // Rate limiting (20 requests per minute per chat ID)
         const rateLimit = checkRateLimit(chatId, 20, 60000);
         const rateLimitHeaders = getRateLimitHeaders(rateLimit, 20);
 
@@ -41,7 +44,7 @@ export async function POST(req: Request) {
             });
         }
 
-        const { messages, image, projectName } = body;
+
 
         // Transform messages from UIMessage format to CoreMessage format
         interface UIMessage { role: string; content: string; parts?: { text?: string }[] }

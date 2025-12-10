@@ -253,7 +253,8 @@ export default function Chat({ chatId, projectName, onChatCreated }: ChatProps) 
                 body: JSON.stringify({
                     messages: [...messages, userMessage],
                     image: userMessage.image,
-                    projectName: isNewProject ? projectName : undefined
+                    projectName: isNewProject ? projectName : undefined,
+                    chatId: isNewProject ? undefined : chatId
                 }),
                 signal: abortController.signal,
             });
