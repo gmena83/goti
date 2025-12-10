@@ -34,7 +34,7 @@ export default function MarkdownMessage({ content, className = '' }: MarkdownMes
                         const match = /language-(\w+)/.exec(className || '');
                         const language = match ? match[1] : '';
 
-                        // Helper to extract text from React children (handles nested elements from highlight plugins)
+                        // Helper to extract text from React children
                         const extractText = (node: any): string => {
                             if (typeof node === 'string') return node;
                             if (typeof node === 'number') return String(node);
