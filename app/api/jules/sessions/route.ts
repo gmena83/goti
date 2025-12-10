@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
             prompt: body.prompt,
             source: body.source,
             title: body.title,
-            startingBranch: body.startingBranch || "main",
+            startingBranch: body.startingBranch || "lovable-migration",
             automationMode: body.automationMode || "AUTO_CREATE_PR",
             requirePlanApproval: body.requirePlanApproval ?? true,
         };
