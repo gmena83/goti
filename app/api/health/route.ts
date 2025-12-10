@@ -1,14 +1,14 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { supabase } from '../../../lib/supabase';
 
-export async function GET(req: NextRequest) {
+export async function GET() {
     try {
         // Check if tables exist by querying them
-        const { data: documents, error: docError } = await supabase
+        const { data: _documents, error: docError } = await supabase
             .from('documents')
             .select('count');
 
-        const { data: chunks, error: chunkError } = await supabase
+        const { data: _chunks, error: chunkError } = await supabase
             .from('document_chunks')
             .select('count');
 

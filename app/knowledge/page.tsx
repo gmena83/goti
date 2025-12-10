@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 
 interface Document {
@@ -32,12 +32,7 @@ export default function KnowledgeBasePage() {
     const [totalPages, setTotalPages] = useState(1);
     const [showUploadModal, setShowUploadModal] = useState(false);
 
-    useEffect(() => {
-        fetchDocuments();
-        fetchStats();
-    }, [search, selectedSource, page]);
-
-    const fetchDocuments = async () => {
+    const fetchDocuments = useCallback(async () => {
         setLoading(true);
         try {
             const params = new URLSearchParams({
@@ -58,9 +53,9 @@ export default function KnowledgeBasePage() {
         } finally {
             setLoading(false);
         }
-    };
+    }, [page, search, selectedSource]);
 
-    const fetchStats = async () => {
+    const fetchStats = useCallback(async () => {
         try {
             const response = await fetch('/api/documents/stats');
             const data = await response.json();
@@ -68,7 +63,12 @@ export default function KnowledgeBasePage() {
         } catch (error) {
             console.error('Error fetching stats:', error);
         }
-    };
+    }, []);
+
+    useEffect(() => {
+        fetchDocuments();
+        fetchStats();
+    }, [fetchDocuments, fetchStats]);
 
     const handleDelete = async (id: string, title: string) => {
         if (!confirm(`Are you sure you want to delete "${title}"?`)) return;
@@ -224,7 +224,7 @@ export default function KnowledgeBasePage() {
                     </div>
 
                     <div className="mt-4 text-sm text-gray-600">
-                        <strong>💡 Tip:</strong> Ask GOTI about any vibecoding platform! Try: "Show me Cursor tutorials" or "Compare Lovable vs Bolt"
+                        <strong>💡 Tip:</strong> Ask GOTI about any vibecoding platform! Try: &quot;Show me Cursor tutorials&quot; or &quot;Compare Lovable vs Bolt&quot;
                     </div>
                 </div>
             </div>
