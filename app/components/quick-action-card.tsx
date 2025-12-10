@@ -2,6 +2,7 @@
 
 import { LucideIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import React from 'react';
 
 interface QuickActionCardProps {
     icon: LucideIcon;
@@ -10,7 +11,7 @@ interface QuickActionCardProps {
     onClick?: () => void;
 }
 
-export default function QuickActionCard({ icon: Icon, title, description, onClick }: QuickActionCardProps) {
+const QuickActionCard = React.memo(function QuickActionCard({ icon: Icon, title, description, onClick }: QuickActionCardProps) {
     return (
         <button
             onClick={onClick}

@@ -5,7 +5,7 @@ import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Check, Copy, ExternalLink } from 'lucide-react';
 import 'highlight.js/styles/vs2015.css';
 
@@ -14,7 +14,7 @@ interface MarkdownMessageProps {
     className?: string;
 }
 
-export default function MarkdownMessage({ content, className = '' }: MarkdownMessageProps) {
+const MarkdownMessage = React.memo(function MarkdownMessage({ content, className = '' }: MarkdownMessageProps) {
     const [copiedCode, setCopiedCode] = useState<string | null>(null);
 
     const copyToClipboard = async (code: string, id: string) => {

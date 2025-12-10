@@ -61,23 +61,23 @@ export default function SidebarNav({
     }, []);
 
     return (
-        <div className="flex flex-col h-full">
+        <div className="flex flex-col h-full bg-transparent">
             {/* Header */}
-            <div className="p-4 border-b border-sidebar-border">
+            <div className="p-4">
                 <div className="flex items-center space-x-3 mb-4">
-                    <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
+                    <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center">
                         <span className="text-primary-foreground font-bold text-sm">G</span>
                     </div>
                     <div>
-                        <h1 className="text-sm font-bold text-sidebar-foreground">GOTI</h1>
-                        <p className="text-xs text-muted-foreground">Generative Orchestrator of Technological Innovation</p>
+                        <h1 className="text-sm font-bold text-sidebar-foreground">GOTI 2.0</h1>
+                        <p className="text-xs text-muted-foreground">Modernized Interface</p>
                     </div>
                 </div>
 
                 {/* New Chat Button */}
                 <button
                     onClick={onNewChat}
-                    className="w-full flex items-center justify-center space-x-2 bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg px-4 py-2.5 transition-all hover:scale-[1.02] active:scale-[0.98]"
+                    className="w-full flex items-center justify-center space-x-2 bg-primary/80 hover:bg-primary text-primary-foreground rounded-lg px-4 py-2.5 transition-all hover:scale-[1.02] active:scale-[0.98] border border-glass-border/20 shadow-lg"
                 >
                     <Plus size={18} />
                     <span className="font-medium">New Project</span>
@@ -91,8 +91,8 @@ export default function SidebarNav({
                     className={cn(
                         "w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors",
                         currentView === 'library'
-                            ? "bg-sidebar-accent text-sidebar-foreground"
-                            : "hover:bg-sidebar-accent text-sidebar-foreground"
+                            ? "bg-glass-border/10 text-sidebar-foreground"
+                            : "hover:bg-glass-border/10 text-muted-foreground hover:text-sidebar-foreground"
                     )}
                 >
                     <Library size={18} />
@@ -103,8 +103,8 @@ export default function SidebarNav({
                     className={cn(
                         "w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors",
                         currentView === 'toolwatch'
-                            ? "bg-sidebar-accent text-sidebar-foreground"
-                            : "hover:bg-sidebar-accent text-sidebar-foreground"
+                            ? "bg-glass-border/10 text-sidebar-foreground"
+                            : "hover:bg-glass-border/10 text-muted-foreground hover:text-sidebar-foreground"
                     )}
                 >
                     <Eye size={18} />
@@ -131,8 +131,8 @@ export default function SidebarNav({
                                 className={cn(
                                     "w-full text-left px-3 py-2 rounded-lg text-sm transition-colors truncate flex items-center gap-2",
                                     currentChatId === conv.id
-                                        ? "bg-sidebar-accent text-sidebar-foreground"
-                                        : "hover:bg-sidebar-accent text-sidebar-foreground"
+                                        ? "bg-glass-border/10 text-sidebar-foreground"
+                                        : "hover:bg-glass-border/10 text-muted-foreground hover:text-sidebar-foreground"
                                 )}
                             >
                                 <MessageSquare size={14} className="flex-shrink-0 text-muted-foreground" />
@@ -146,7 +146,7 @@ export default function SidebarNav({
                 {hasMore && (
                     <button
                         onClick={onShowAllProjects}
-                        className="w-full flex items-center justify-between px-3 py-2 mt-2 text-sm text-muted-foreground hover:text-foreground hover:bg-sidebar-accent rounded-lg transition-colors"
+                        className="w-full flex items-center justify-between px-3 py-2 mt-2 text-sm text-muted-foreground hover:text-foreground hover:bg-glass-border/10 rounded-lg transition-colors"
                     >
                         <span>Older Projects</span>
                         <ChevronRight size={16} />
@@ -155,10 +155,10 @@ export default function SidebarNav({
             </div>
 
             {/* User Profile */}
-            <div className="p-4 border-t border-sidebar-border">
+            <div className="p-4">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
-                        <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center">
                             <span className="text-primary-foreground text-xs font-medium">U</span>
                         </div>
                         <div className="flex-1 min-w-0">
@@ -166,10 +166,10 @@ export default function SidebarNav({
                         </div>
                     </div>
                     <div className="flex items-center space-x-1">
-                        <button className="p-1.5 hover:bg-sidebar-accent rounded-md transition-colors" title="Settings">
+                        <button className="p-1.5 hover:bg-glass-border/10 rounded-md transition-colors" title="Settings">
                             <Settings size={16} className="text-muted-foreground" />
                         </button>
-                        <button className="p-1.5 hover:bg-sidebar-accent rounded-md transition-colors" title="Log out">
+                        <button className="p-1.5 hover:bg-glass-border/10 rounded-md transition-colors" title="Log out">
                             <LogOut size={16} className="text-muted-foreground" />
                         </button>
                     </div>

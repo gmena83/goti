@@ -36,7 +36,7 @@ All colors MUST be HSL.
     --input: 240 6% 15%;
     --ring: 262 83% 58%;
 
-    --radius: 0.75rem;
+    --radius: 1rem;
 
     --glass-bg: 240 10% 5.5%;
     --glass-border: 0 0% 100%;
@@ -64,7 +64,8 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground font-sans antialiased;
+    @apply bg-gradient-to-br from-[#0a0a0a] via-[#1a1a1a] to-[#0a0a0a] text-foreground font-sans antialiased;
+    background: radial-gradient(circle at top left, hsl(262, 83%, 20%), hsl(240, 10%, 5.9%) 35%);
   }
 
   /* Glassmorphism utilities */
