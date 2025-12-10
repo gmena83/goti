@@ -32,22 +32,32 @@ export default function SidebarNav({
     const [loading, setLoading] = useState(true);
     const [hasMore, setHasMore] = useState(false);
 
-    useEffect(() => {
-        async function fetchConversations() {
-            try {
-                const response = await fetch('/api/chat/conversations?limit=5');
-                if (response.ok) {
-                    const data = await response.json();
-                    setConversations(data.conversations || []);
-                    setHasMore(data.hasMore || false);
-                }
-            } catch (error) {
-                console.error('Error fetching conversations:', error);
-            } finally {
-                setLoading(false);
+    const fetchConversations = async () => {
+        try {
+            const response = await fetch('/api/chat/conversations?limit=5');
+            if (response.ok) {
+                const data = await response.json();
+                setConversations(data.conversations || []);
+                setHasMore(data.hasMore || false);
             }
+        } catch (error) {
+            console.error('Error fetching conversations:', error);
+        } finally {
+            setLoading(false);
         }
+    };
+
+    useEffect(() => {
         fetchConversations();
+    }, []);
+
+    // Listen for refresh events from Chat component
+    useEffect(() => {
+        const handleRefresh = () => {
+            fetchConversations();
+        };
+        window.addEventListener('refreshConversations', handleRefresh);
+        return () => window.removeEventListener('refreshConversations', handleRefresh);
     }, []);
 
     return (

@@ -41,7 +41,7 @@ export async function POST(req: Request) {
             });
         }
 
-        const { messages, image } = body;
+        const { messages, image, projectName } = body;
 
         // Transform messages from UIMessage format to CoreMessage format
         const transformedMessages = messages.map((msg: any, index: number) => {
@@ -94,9 +94,12 @@ export async function POST(req: Request) {
         // Save user message to Supabase
         // chatId already obtained from session above
 
+        // Determine chat title
+        const chatTitle = projectName || (messages[0]?.content?.slice(0, 50) + '...' || 'New Chat');
+
         const { error: chatError } = await supabase
             .from('chats')
-            .upsert({ id: chatId, title: 'General Chat' }, { onConflict: 'id' });
+            .upsert({ id: chatId, title: chatTitle }, { onConflict: 'id' });
 
         if (chatError) console.error('Error creating chat:', chatError);
 

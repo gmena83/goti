@@ -234,6 +234,9 @@ export default function Chat({ chatId, projectName, onChatCreated }: ChatProps) 
         abortControllerRef.current = abortController;
 
         try {
+            // For new projects, include the project name
+            const isNewProject = !chatId && projectName && messages.length === 0;
+
             const response = await fetch('/api/chat', {
                 method: 'POST',
                 headers: {
@@ -241,10 +244,19 @@ export default function Chat({ chatId, projectName, onChatCreated }: ChatProps) 
                 },
                 body: JSON.stringify({
                     messages: [...messages, userMessage],
-                    image: userMessage.image
+                    image: userMessage.image,
+                    projectName: isNewProject ? projectName : undefined
                 }),
                 signal: abortController.signal,
             });
+
+            // If this was a new project, notify parent and refresh sidebar
+            if (isNewProject) {
+                // Dispatch event to refresh sidebar
+                window.dispatchEvent(new CustomEvent('refreshConversations'));
+                // Notify parent component about the created chat
+                onChatCreated?.(crypto.randomUUID()); // This will be updated when we get the real ID
+            }
 
             if (!response.ok) {
                 throw new Error('Failed to send message');
