@@ -138,7 +138,7 @@ You have access to documentation and changelogs for: Lovable, Zapier, Activepiec
 ${contextText}`;
 
         const result = streamText({
-            model: openai('gpt-5.1'),
+            model: openai('gpt-4o'),
             messages: transformedMessages,
             system: systemPrompt,
             onFinish: async (event) => {
