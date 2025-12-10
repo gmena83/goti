@@ -44,7 +44,8 @@ export async function POST(req: Request) {
         const { messages, image, projectName } = body;
 
         // Transform messages from UIMessage format to CoreMessage format
-        const transformedMessages = messages.map((msg: any, index: number) => {
+        interface UIMessage { role: string; content: string; parts?: { text?: string }[] }
+        const transformedMessages = messages.map((msg: UIMessage, index: number) => {
             // If it's the last message and we have an image, format as multi-modal
             if (index === messages.length - 1 && image) {
                 return {
@@ -75,18 +76,13 @@ export async function POST(req: Request) {
         const lastMessage = messages[messages.length - 1];
         const userQuery = lastMessage.parts?.[0]?.text || lastMessage.content || '';
 
-        // Perform RAG retrieval with improved error handling
+        // RAG: Search for relevant context from knowledge base
         let contextText = '';
-        let ragStatus = 'success';
         try {
             const relevantChunks = await searchSimilarChunks(userQuery, 3, 0.7);
             contextText = formatContextForPrompt(relevantChunks);
-            if (relevantChunks.length === 0) {
-                ragStatus = 'no_results';
-            }
         } catch (ragError) {
             console.error('RAG retrieval error:', ragError);
-            ragStatus = 'error';
             // Add note to system prompt about unavailable knowledge base
             contextText = '\n\nNote: Knowledge base search is temporarily unavailable.';
         }

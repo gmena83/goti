@@ -44,9 +44,7 @@ export default function HomeClient() {
     }, []);
 
     const handleShowAllProjects = useCallback(() => {
-        // For now, just redirect to a future projects page
-        // Could show a modal with full list instead
-        console.log('Show all projects');
+        // Future: Open modal or navigate to full projects page
     }, []);
 
     return (
@@ -114,6 +112,7 @@ export default function HomeClient() {
                             <button
                                 onClick={() => setShowNewProjectModal(false)}
                                 className="p-1 hover:bg-muted rounded-lg transition-colors"
+                                title="Close"
                             >
                                 <X size={18} />
                             </button>

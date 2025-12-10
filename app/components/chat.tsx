@@ -427,6 +427,7 @@ export default function Chat({ chatId, projectName, onChatCreated }: ChatProps) 
                                 type="button"
                                 onClick={() => setSelectedImage(null)}
                                 className="absolute -top-2 -right-2 bg-destructive text-destructive-foreground rounded-full p-1 hover:bg-destructive/90 transition-colors"
+                                title="Remove image"
                             >
                                 <X size={12} />
                             </button>
@@ -441,6 +442,7 @@ export default function Chat({ chatId, projectName, onChatCreated }: ChatProps) 
                                     type="button"
                                     onClick={() => setSelectedFile(null)}
                                     className="ml-1 text-muted-foreground hover:text-foreground transition-colors"
+                                    title="Remove file"
                                 >
                                     <X size={14} />
                                 </button>
