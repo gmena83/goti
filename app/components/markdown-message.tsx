@@ -33,7 +33,18 @@ export default function MarkdownMessage({ content, className = '' }: MarkdownMes
                     code({ node, className, children, ...props }: any) {
                         const match = /language-(\w+)/.exec(className || '');
                         const language = match ? match[1] : '';
-                        const codeString = String(children).replace(/\n$/, '');
+
+                        // Helper to extract text from React children (handles nested elements from highlight plugins)
+                        const extractText = (node: any): string => {
+                            if (typeof node === 'string') return node;
+                            if (typeof node === 'number') return String(node);
+                            if (!node) return '';
+                            if (Array.isArray(node)) return node.map(extractText).join('');
+                            if (node.props?.children) return extractText(node.props.children);
+                            return '';
+                        };
+
+                        const codeString = extractText(children).replace(/\n$/, '');
                         const codeId = `code-${Math.random().toString(36).substr(2, 9)}`;
                         const inline = !className || !match;
 
