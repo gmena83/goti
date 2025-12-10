@@ -32,8 +32,8 @@ export function validateChatRequest(body: any): ValidationResult {
             return { valid: false, error: 'Message content must be a string' };
         }
 
-        if (msg.content.length > 10000) {
-            return { valid: false, error: 'Message content too long (max 10000 chars)' };
+        if (msg.content.length > 50000) {
+            return { valid: false, error: 'Message content too long (max 50000 chars)' };
         }
 
         if (!['user', 'assistant', 'system'].includes(msg.role)) {
